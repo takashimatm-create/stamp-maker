@@ -6,7 +6,7 @@ const EXPRESSIONS=['a warm grateful smile','a polite grateful smile','a gently a
 export default {
  async fetch(request,env){
   const origin=request.headers.get('Origin');
-  const headers={'Content-Type':'application/json; charset=utf-8','Access-Control-Allow-Origin':ORIGIN,'Vary':'Origin','Access-Control-Allow-Methods':'POST, GET, OPTIONS','Access-Control-Allow-Headers':'Content-Type, X-Stamp-Token','Cache-Control':'no-store','X-Content-Type-Options':'nosniff'};
+  const headers={'Content-Type':'application/json; charset=utf-8','Access-Control-Allow-Origin':ORIGIN,'Vary':'Origin','Access-Control-Allow-Methods':'POST, GET, OPTIONS','Access-Control-Allow-Headers':'Content-Type, X-Stamp-Token, X-Stamp-Remember','Cache-Control':'no-store','X-Content-Type-Options':'nosniff'};
   const json=(value,status=200)=>new Response(JSON.stringify(value),{status,headers});
   if(origin&&origin!==ORIGIN)return json({error:'このサイトからは利用できません。'},403);
   if(request.method==='OPTIONS')return new Response(null,{status:204,headers});
@@ -16,12 +16,27 @@ export default {
   if(request.method!=='POST')return json({error:'POSTで呼び出してください。'},405);
   if(!env.STAMP_ACCESS_TOKEN)return json({error:'サーバーのアプリパスワードが未設定です。'},503);
   const token=request.headers.get('X-Stamp-Token')||'';
-  // Compare fixed-size digests, including for unequal-length input.
-  const digest=async value=>new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(value)));
+  const encoder=new TextEncoder();
+  const digest=async value=>new Uint8Array(await crypto.subtle.digest('SHA-256',encoder.encode(value)));
   if(token.length>512)return json({error:'パスワードを確認してください。'},401);
   const [a,b]=await Promise.all([digest(token),digest(env.STAMP_ACCESS_TOKEN)]);let diff=0;for(let i=0;i<a.length;i++)diff|=a[i]^b[i];
-  if(!token||diff)return json({error:'パスワードを確認してください。'},401);
-  if(path==='/session')return json({authenticated:true});
+  const passwordOK=!!token&&!diff;let sessionExpiry=0,sessionOK=false;
+  const sessionMatch=token.match(/^gks1\.(\d{13})\.([a-f0-9]{32})\.([a-f0-9]{64})$/);
+  const signingKey=()=>crypto.subtle.importKey('raw',encoder.encode(env.STAMP_ACCESS_TOKEN),{name:'HMAC',hash:'SHA-256'},false,['sign','verify']);
+  if(!passwordOK&&sessionMatch&&Number(sessionMatch[1])>Date.now()&&Number(sessionMatch[1])<=Date.now()+31*86400000){
+   const signature=Uint8Array.from(sessionMatch[3].match(/../g),v=>parseInt(v,16));
+   sessionOK=await crypto.subtle.verify('HMAC',await signingKey(),signature,encoder.encode(sessionMatch[1]+'.'+sessionMatch[2]));
+   if(sessionOK)sessionExpiry=Number(sessionMatch[1]);
+  }
+  if(!passwordOK&&!sessionOK)return json({error:'ログインが必要です。パスワードを確認してください。'},401);
+  if(path==='/session'){
+   if(sessionOK)return json({authenticated:true,token,expiresAt:sessionExpiry});
+   const expiresAt=Date.now()+(request.headers.get('X-Stamp-Remember')==='1'?30*86400000:12*3600000);
+   const nonce=crypto.randomUUID().replaceAll('-','');const payload=expiresAt+'.'+nonce;
+   const signature=new Uint8Array(await crypto.subtle.sign('HMAC',await signingKey(),encoder.encode(payload)));
+   const hex=Array.from(signature,v=>v.toString(16).padStart(2,'0')).join('');
+   return json({authenticated:true,token:'gks1.'+payload+'.'+hex,expiresAt});
+  }
   if(!env.OPENAI_API_KEY)return json({error:'OpenAI APIキーが未設定です。'},503);
   if(!(request.headers.get('Content-Type')||'').includes('application/json'))return json({error:'画像をJSON形式で送信してください。'},415);
   try{
