@@ -33,14 +33,12 @@ export default {
    if(!Number.isInteger(body.index)||body.index<0||body.index>15)return json({error:'番号は1〜16を選んでください。'},400);
    const match=typeof body.photo==='string'&&body.photo.match(/^data:image\/(png|jpeg|webp);base64,([A-Za-z0-9+/]+={0,2})$/);
    if(!match||match[2].length%4)return json({error:'PNG・JPEG・WebPの写真を選んでください。'},400);
-   const raw=atob(match[2]);if(raw.length<12||raw.length>MAX_BYTES)return json({error:'写真は8MB以内にしてください。'},400);
-   const data=Uint8Array.from(raw,c=>c.charCodeAt(0));
-   const valid=match[1]==='png'?data[0]===137&&data[1]===80&&data[2]===78&&data[3]===71:match[1]==='jpeg'?data[0]===255&&data[1]===216&&data[2]===255:String.fromCharCode(...data.slice(0,4))==='RIFF'&&String.fromCharCode(...data.slice(8,12))==='WEBP';
-   if(!valid)return json({error:'写真のファイル形式を確認してください。'},400);
-   const form=new FormData();form.append('model','gpt-image-1.5');form.append('input_fidelity','high');form.append('quality','medium');form.append('size','1024x1024');form.append('n','1');form.append('output_format','png');
-   form.append('image',new Blob([data],{type:'image/'+match[1]}),'photo.'+(match[1]==='jpeg'?'jpg':match[1]));
-   form.append('prompt','Edit the supplied photograph. Change only the facial expression to '+EXPRESSIONS[body.index]+'. Preserve the exact same person, facial identity, age, hairstyle, skin texture, clothing, pose, camera angle and background. Keep all people and their number unchanged. Keep it photorealistic. Do not illustrate or cartoonize. Do not add text, letters, logos, extra people or objects.');
-   const upstream=await fetch('https://api.openai.com/v1/images/edits',{method:'POST',headers:{Authorization:'Bearer '+env.OPENAI_API_KEY},body:form,signal:AbortSignal.timeout(150000)});
+   if(match[2].length>Math.ceil(MAX_BYTES*4/3))return json({error:'写真は8MB以内にしてください。'},413);
+   // The Images API accepts data URLs directly. Avoid decoding/copying every image byte in JS.
+   const payload={model:'gpt-image-1.5',input_fidelity:'high',quality:'medium',size:'1024x1024',n:1,output_format:'png',images:[{image_url:body.photo}],prompt:'Edit the supplied photograph. Change only the facial expression to '+EXPRESSIONS[body.index]+'. Preserve the exact same person, facial identity, age, hairstyle, skin texture, clothing, pose, camera angle and background. Keep all people and their number unchanged. Keep it photorealistic. Do not illustrate or cartoonize. Do not add text, letters, logos, extra people or objects.'};
+   const upstream=await fetch('https://api.openai.com/v1/images/edits',{method:'POST',headers:{Authorization:'Bearer '+env.OPENAI_API_KEY,'Content-Type':'application/json'},body:JSON.stringify(payload),signal:AbortSignal.timeout(150000)});
+   // New clients consume the original response directly, without parsing/re-encoding megabytes in the Worker.
+   if(upstream.ok&&body.responseFormat==='openai')return new Response(upstream.body,{status:200,headers});
    const result=await upstream.json();
    if(!upstream.ok){const status=upstream.status;return json({error:status===429?'APIの利用上限または残高を確認してください。':status===401?'サーバーのOpenAI APIキーを確認してください。':status===403?'画像編集モデルの利用権限・組織認証を確認してください。':'写真編集に失敗しました。別の写真で試すか、サーバー設定を確認してください。'},status===429?429:502)}
    const image=result.data?.[0]?.b64_json;if(typeof image!=='string'||!image)return json({error:'編集画像が返りませんでした。'},502);
