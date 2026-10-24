@@ -11,7 +11,7 @@ export default {
   if(origin&&origin!==ORIGIN)return json({error:'このサイトからは利用できません。'},403);
   if(request.method==='OPTIONS')return new Response(null,{status:204,headers});
   const path=new URL(request.url).pathname;
-  if(path==='/health'&&request.method==='GET')return json({ok:true,apiKeyConfigured:Boolean(env.OPENAI_API_KEY),photoEditConfigured:Boolean(env.OPENAI_API_KEY&&env.STAMP_ACCESS_TOKEN),authConfigured:Boolean(env.STAMP_ACCESS_TOKEN),personPoseConfigured:Boolean(env.OPENAI_API_KEY&&env.STAMP_ACCESS_TOKEN)});
+  if(path==='/health'&&request.method==='GET')return json({ok:true,apiKeyConfigured:Boolean(env.OPENAI_API_KEY),photoEditConfigured:Boolean(env.OPENAI_API_KEY&&env.STAMP_ACCESS_TOKEN),authConfigured:Boolean(env.STAMP_ACCESS_TOKEN),personPoseConfigured:Boolean(env.OPENAI_API_KEY&&env.STAMP_ACCESS_TOKEN),templateComposeConfigured:true});
   if(!['/session','/generate'].includes(path))return json({error:'指定の機能はありません。'},404);
   if(request.method!=='POST')return json({error:'POSTで呼び出してください。'},405);
   if(!env.STAMP_ACCESS_TOKEN)return json({error:'サーバーのアプリパスワードが未設定です。'},503);
@@ -40,7 +40,7 @@ export default {
   if(!env.OPENAI_API_KEY)return json({error:'OpenAI APIキーが未設定です。'},503);
   if(!(request.headers.get('Content-Type')||'').includes('application/json'))return json({error:'画像をJSON形式で送信してください。'},415);
   try{
-   const limit=Math.ceil(MAX_BYTES*4/3)+2048;
+   const limit=Math.ceil((MAX_BYTES+4*1024*1024)*4/3)+8192;
    if(Number(request.headers.get('Content-Length'))>limit)return json({error:'写真は8MB以内にしてください。'},413);
    const reader=request.body?.getReader();if(!reader)return json({error:'写真がありません。'},400);
    let total=0;const chunks=[];while(true){const {done,value}=await reader.read();if(done)break;total+=value.length;if(total>limit){await reader.cancel();return json({error:'写真は8MB以内にしてください。'},413)}chunks.push(value)}
@@ -58,6 +58,14 @@ export default {
     const identity='Use the uploaded photograph as the identity reference for the adult coach. Preserve this exact adult person, their age, distinctive hair color and hairstyle, hairline, head shape and body build. Photorealistic sports sticker subject, black athletic top with red shoulder stripes, black shorts and sports shoes. No letters, words, captions, logos, watermarks, decorative effects or extra panels. Transparent background. Show the whole required pose within the frame. Do not invent or show a front-facing smile or facial expression. ';
     payload.prompt=identity+(canonical===2?'Create a front-view full-body scene of the adult coach standing in the center, bending deeply forward at the waist in a respectful Japanese bow, both hands on thighs or knees. The head is lowered so only the crown and back of the head and hair are visible; the face and eyes are completely hidden. A child in a red sports shirt and black shorts stands on each side, also bowing with faces hidden. Exactly one adult coach and two children.':'Create a photorealistic sports sticker of the adult coach in the reference photo taking a seated rest after exercise. The adult sits on a low bench with knees together, forearms resting across the knees, and head gently lowered onto the forearms. The camera sees the crown of the hair above the arms, matching the reference hairstyle and hair colour. Preserve the adult age and body build. Keep the adult fully dressed in the reference sportswear, with the full seated body and shoes in frame. One adult only, centered, transparent background, no text.');
    }
+   if(body.mode==='template-heads-v1'){
+    const isPNG=(v,max)=>typeof v==='string'&&v.length<=Math.ceil(max*4/3)+30&&/^data:image\/png;base64,[A-Za-z0-9+/]+={0,2}$/.test(v)&&v.slice(v.indexOf(',')+1).length%4===0;
+    if(!isPNG(body.template,3*1024*1024)||!isPNG(body.mask,1024*1024))return json({error:'合成用フォーマットまたはマスクの形式が違います。'},400);
+    const groups=[[0,3,9],[1,6],[4,14],[5,8],[7,13],[10,15],[2,12],[11]],group=groups.find(g=>g.includes(body.index));
+    payload.images=[{image_url:body.template},{image_url:body.photo}];payload.mask={image_url:body.mask};delete payload.background;
+    payload.prompt='Edit IMAGE 1, a 1024 x 1024 contact sheet of cropped adult coach heads, using IMAGE 2 only as the identity and hairstyle reference. Keep the EXACT 2 by 2 grid, each tile exactly 512 x 512 pixels. There are '+group.length+' occupied tiles in row-major order; leave all unused white tiles unchanged. Replace only the masked adult head/face/hair regions with the adult person from IMAGE 2. Keep the exact position, head size, camera direction, head tilt, pose and crop of every input tile. Preserve realistic identity, age, hair colour and hairstyle of the reference adult. Preserve all unmasked pixels, children, hands, clothes and surroundings. Do not add panels, borders, text, objects or people. The crops have been resized to square tiles; preserve their geometry exactly so they can be placed back into their original frames. '+(canonical===2?'Both occupied tiles show a respectful Japanese bow. Preserve the lowered head angle; show the crown/back of the reference adult hair, with no visible face or eyes. Do not raise the head.':canonical===11?'The occupied tile shows the crown of the adult coach resting their head on their forearms during a break after sports. Preserve the resting pose. Keep the face hidden and adapt only the visible hair to the reference adult.':'Use the same '+EXPRESSIONS[canonical]+' in all occupied tiles while preserving the different original head angles. Do not copy the template coach facial identity.');
+   }else if(body.mode!==undefined)return json({error:'合成モードを確認してください。'},400);
+
    const upstream=await fetch('https://api.openai.com/v1/images/edits',{method:'POST',headers:{Authorization:'Bearer '+env.OPENAI_API_KEY,'Content-Type':'application/json'},body:JSON.stringify(payload),signal:AbortSignal.timeout(150000)});
    // New clients consume the original response directly, without parsing/re-encoding megabytes in the Worker.
    if(upstream.ok&&body.responseFormat==='openai')return new Response(upstream.body,{status:200,headers});
