@@ -1,6 +1,6 @@
 // GK Stamp Maker. Keep OPENAI_API_KEY and STAMP_ACCESS_TOKEN in Cloudflare Secrets.
 const ORIGIN='https://takashimatm-create.github.io';
-const EXPRESSION_CANONICAL=[0,1,null,0,4,5,1,7,5,0,10,null,null,7,4,10];
+const EXPRESSION_CANONICAL=[0,1,2,0,4,5,1,7,5,0,10,11,2,7,4,10];
 const MAX_BYTES=8*1024*1024;
 const EXPRESSIONS=['a warm grateful smile','a polite grateful smile','a gently apologetic expression','an approving smile','an encouraging energetic smile','a determined expression','a kind supportive smile','a quietly confident expression','a focused expression','a confident encouraging smile','a warm reassuring smile','a comically disappointed but natural expression','a polite friendly smile','a hopeful smile','an excited optimistic smile','a thoughtful focused expression'];
 export default {
@@ -11,7 +11,7 @@ export default {
   if(origin&&origin!==ORIGIN)return json({error:'このサイトからは利用できません。'},403);
   if(request.method==='OPTIONS')return new Response(null,{status:204,headers});
   const path=new URL(request.url).pathname;
-  if(path==='/health'&&request.method==='GET')return json({ok:true,apiKeyConfigured:Boolean(env.OPENAI_API_KEY),photoEditConfigured:Boolean(env.OPENAI_API_KEY&&env.STAMP_ACCESS_TOKEN),authConfigured:Boolean(env.STAMP_ACCESS_TOKEN)});
+  if(path==='/health'&&request.method==='GET')return json({ok:true,apiKeyConfigured:Boolean(env.OPENAI_API_KEY),photoEditConfigured:Boolean(env.OPENAI_API_KEY&&env.STAMP_ACCESS_TOKEN),authConfigured:Boolean(env.STAMP_ACCESS_TOKEN),personPoseConfigured:Boolean(env.OPENAI_API_KEY&&env.STAMP_ACCESS_TOKEN)});
   if(!['/session','/generate'].includes(path))return json({error:'指定の機能はありません。'},404);
   if(request.method!=='POST')return json({error:'POSTで呼び出してください。'},405);
   if(!env.STAMP_ACCESS_TOKEN)return json({error:'サーバーのアプリパスワードが未設定です。'},503);
@@ -32,12 +32,17 @@ export default {
    const bytes=new Uint8Array(total);let offset=0;for(const c of chunks){bytes.set(c,offset);offset+=c.length}
    let body;try{body=JSON.parse(new TextDecoder().decode(bytes))}catch{return json({error:'送信データを読み込めません。'},400)}
    if(!Number.isInteger(body.index)||body.index<0||body.index>15)return json({error:'番号は1〜16を選んでください。'},400);
-   const canonical=EXPRESSION_CANONICAL[body.index];if(canonical===null)return json({error:'3・12・13はお辞儀テンプレートをそのまま使うため、表情加工しません。'},400);
+   const canonical=EXPRESSION_CANONICAL[body.index];
    const match=typeof body.photo==='string'&&body.photo.match(/^data:image\/(png|jpeg|webp);base64,([A-Za-z0-9+/]+={0,2})$/);
    if(!match||match[2].length%4)return json({error:'PNG・JPEG・WebPの写真を選んでください。'},400);
    if(match[2].length>Math.ceil(MAX_BYTES*4/3))return json({error:'写真は8MB以内にしてください。'},413);
    // The Images API accepts data URLs directly. Avoid decoding/copying every image byte in JS.
    const payload={model:'gpt-image-1.5',input_fidelity:'high',quality:'medium',size:'1024x1024',n:1,output_format:'png',images:[{image_url:body.photo}],prompt:'Edit the supplied photograph. Change only the facial expression to '+EXPRESSIONS[canonical]+'. Preserve the exact same person, facial identity, age, hairstyle, skin texture, clothing, pose, camera angle and background. Keep all people and their number unchanged. Keep it photorealistic. Do not illustrate or cartoonize. Do not add text, letters, logos, extra people or objects.'};
+   if(canonical===2||canonical===11){
+    payload.background='transparent';
+    const identity='Use the uploaded photograph as the identity reference for the adult coach. Preserve this exact adult person, their age, distinctive hair color and hairstyle, hairline, head shape and body build. Photorealistic sports sticker subject, black athletic top with red shoulder stripes, black shorts and sports shoes. No letters, words, captions, logos, watermarks, decorative effects or extra panels. Transparent background. Show the whole required pose within the frame. Do not invent or show a front-facing smile or facial expression. ';
+    payload.prompt=identity+(canonical===2?'Create a front-view full-body scene of the adult coach standing in the center, bending deeply forward at the waist in a respectful Japanese bow, both hands on thighs or knees. The head is lowered so only the crown and back of the head and hair are visible; the face and eyes are completely hidden. A child in a red sports shirt and black shorts stands on each side, also bowing with faces hidden. Exactly one adult coach and two children.':'Create a scene of the adult coach alone sitting on a low step, knees drawn up, forearms crossed over the knees, forehead resting face-down on the arms. Show the crown and back of the head and characteristic hair; the face and eyes are completely hidden. Include the full seated body and shoes. Exactly one adult, no children or other people.');
+   }
    const upstream=await fetch('https://api.openai.com/v1/images/edits',{method:'POST',headers:{Authorization:'Bearer '+env.OPENAI_API_KEY,'Content-Type':'application/json'},body:JSON.stringify(payload),signal:AbortSignal.timeout(150000)});
    // New clients consume the original response directly, without parsing/re-encoding megabytes in the Worker.
    if(upstream.ok&&body.responseFormat==='openai')return new Response(upstream.body,{status:200,headers});
