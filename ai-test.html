@@ -37,7 +37,7 @@ function voiceInput(targetId, append){
   recognition.onend=()=>{if(activeRecognition===recognition)activeRecognition=null};
   try{recognition.start()}catch(e){status.textContent='音声入力を開始できません。キーボードのマイクをご利用ください。'}
 }
-$('voiceName').onclick=()=>voiceInput('packname',false);
+if($('voiceName'))$('voiceName').onclick=()=>voiceInput('packname',false);
 $('voiceGolf').onclick=()=>voiceInput('golftext',true);
 // Voice command preview and explicit confirmation; no arbitrary code execution.
 let pendingCommand=null;
