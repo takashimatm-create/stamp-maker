@@ -61,8 +61,28 @@ export default {
    const upstream=await fetch('https://api.openai.com/v1/images/edits',{method:'POST',headers:{Authorization:'Bearer '+env.OPENAI_API_KEY,'Content-Type':'application/json'},body:JSON.stringify(payload),signal:AbortSignal.timeout(150000)});
    // New clients consume the original response directly, without parsing/re-encoding megabytes in the Worker.
    if(upstream.ok&&body.responseFormat==='openai')return new Response(upstream.body,{status:200,headers});
-   const result=await upstream.json();
-   if(!upstream.ok){const status=upstream.status;return json({error:status===429?'APIの利用上限または残高を確認してください。':status===401?'サーバーのOpenAI APIキーを確認してください。':status===403?'画像編集モデルの利用権限・組織認証を確認してください。':'写真編集に失敗しました。別の写真で試すか、サーバー設定を確認してください。'},status===429?429:502)}
+   let result;try{result=await upstream.json()}catch{
+    console.error(JSON.stringify({event:'image_edit_failed',slot:body.index+1,upstreamStatus:upstream.status,code:'non_json_response'}));
+    return json({error:'画像編集APIの応答を読み込めませんでした（'+(body.index+1)+'番・HTTP '+upstream.status+'）。完成済み画像は保持しています。',upstreamStatus:upstream.status,code:'non_json_response'},502);
+   }
+   if(!upstream.ok){
+    const status=upstream.status,rawCode=String(result.error?.code||result.error?.type||'unknown');
+    const code=/^[a-z][a-z0-9_]{0,79}$/.test(rawCode)?rawCode:'unknown';
+    const rawParam=String(result.error?.param||'');const param=['image','images','background','model','prompt','size','quality','input_fidelity','output_format'].includes(rawParam)?rawParam:'';
+    const providerMessage=String(result.error?.message||'');
+    const safety=/safety|moderation|policy|content_filter/i.test(code+' '+providerMessage);
+    let message;
+    if(code==='insufficient_quota'||/quota|credits|balance/i.test(code+' '+providerMessage))message='APIの残高または利用枠が不足しています。';
+    else if(status===429)message='画像編集APIの利用頻度制限に達しました。少し待ってから残りだけ再開してください。';
+    else if(status===401)message='サーバーのOpenAI APIキーを確認してください。';
+    else if(status===403)message='画像編集モデルの利用権限・組織認証を確認してください。';
+    else if(safety)message='画像編集APIの安全性判定で写真または生成内容を受け付けられませんでした。';
+    else if(status>=500)message='画像編集APIで一時的な障害が発生しました。少し待ってから残りだけ再開してください。';
+    else message='画像編集APIが入力または生成条件を受け付けませんでした。';
+    console.error(JSON.stringify({event:'image_edit_failed',slot:body.index+1,upstreamStatus:status,code,param,category:safety?'safety':'api_error'}));
+    const detail='（'+(body.index+1)+'番・OpenAI HTTP '+status+'・'+code+(param?'・'+param:'')+'）';
+    return json({error:message+detail,upstreamStatus:status,code,slot:body.index+1},status===429?429:502);
+   }
    const image=result.data?.[0]?.b64_json;if(typeof image!=='string'||!image)return json({error:'編集画像が返りませんでした。'},502);
    return json({image:'data:image/png;base64,'+image});
   }catch(e){return json({error:e.name==='TimeoutError'?'写真編集が時間切れになりました。料金が発生している場合があるため、すぐに再実行せず確認してください。':'写真編集の処理に失敗しました。'},e.name==='TimeoutError'?504:500)}
