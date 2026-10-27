@@ -1,7 +1,7 @@
 export function safeName(value){return String(value||'').trim().replace(/[\\/:*?"<>|\u0000-\u001f]/g,'_').slice(0,60);}
 function limited(value,max){let n=0,out='';for(const ch of value){const w=ch.codePointAt(0)>127?2:1;if(n+w>max)break;out+=ch;n+=w;}return out;}
 export function handoffText({name,edition,link='',creator=''}){
- const person=String(name||'').trim().replace(/さん$/,'')||'【名前を入力】',golf=edition==='golf',kind=golf?'ゴルフ':'ゴールデンキッズ';
+ const person=String(name||'').trim().replace(/さん$/,'')||'【名前を入力】',golf=edition.startsWith('golf'),kind=golf?'ゴルフ':'ゴールデンキッズ';
  const title=limited(person+'の'+kind+'スタンプ',40);
  return {
   title,description:limited(person+'さんの'+kind+'をテーマにした、日常で使える16種類のスタンプです。',160),
