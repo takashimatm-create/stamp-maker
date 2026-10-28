@@ -1,0 +1,15 @@
+import assert from 'node:assert/strict';
+import {actionState,manualSheetRects} from '../assets/sticker-actions.mjs';
+assert.equal(actionState({}).reviewDisabled,true);
+const stopped={hasResult:true,previewReady:false,splitOK:false,named:true};
+assert.equal(actionState(stopped).manualDisabled,false);assert.equal(actionState(stopped).sheetDisabled,false);assert.equal(actionState(stopped).zipDisabled,true);
+const preview={hasResult:true,previewReady:true,splitOK:true,named:true};
+assert.equal(actionState(preview).reviewDisabled,false);assert.equal(actionState(preview).zipDisabled,true);
+const checked={...preview,reviewed:true};assert.equal(actionState(checked).zipDisabled,false);assert.equal(actionState(checked).shareDisabled,false);
+assert.equal(actionState({...checked,named:false}).zipDisabled,false);assert.equal(actionState({...checked,named:false}).shareDisabled,true);
+for(const state of [{busy:true},{sharing:true}])for(const key of ['generateDisabled','reviewDisabled','zipDisabled','shareDisabled','sheetDisabled','manualDisabled'])assert.equal(actionState({...checked,...state})[key],true,key);
+assert.equal(actionState({...checked,reading:true}).generateDisabled,true);
+const manual=manualSheetRects(1536,1024,{x:[24,51,77],y:[23,49,76]});assert.equal(manual.rects.length,16);assert.equal(manual.rects.reduce((sum,r)=>sum+r.w*r.h,0),1536*1024);assert.equal(manual.mode,'manual');
+assert.throws(()=>manualSheetRects(1536,1024,{x:[50,25,75],y:[25,50,75]}));
+assert.throws(()=>manualSheetRects(1536,1024,{x:[25,26,75],y:[25,50,75]}));
+console.log('PASS: button state matrix, auto split failure keeps image save and manual adjustment available, review after 16 previews, ZIP/share gating, busy/sharing locks, manual coverage and invalid cuts.');

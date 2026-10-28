@@ -1,0 +1,33 @@
+import {actionState,manualSheetRects} from '../assets/sticker-actions.mjs';
+import {webcrypto as crypto} from 'node:crypto';
+const hashes=JSON.parse(fs.readFileSync(new URL('./fixtures/photo-head-prompt-hashes.json',import.meta.url),'utf8')).promptSHA256;
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import vm from 'node:vm';
+import {PRESETS} from '../assets/sticker-presets.mjs';
+const html=fs.readFileSync(new URL('../ai-test.html',import.meta.url),'utf8');
+const nodes={};
+for(const [,id] of html.matchAll(/id="([^"]+)"/g))nodes[id]={value:'',checked:false,dataset:{},setAttribute(k,v){this[k]=v;},replaceChildren(...v){this.children=v;}};
+nodes.edition.value='gk';nodes.creatorName.value='tester';
+const buttons=Object.keys(PRESETS).map(edition=>({dataset:{edition},setAttribute(k,v){this[k]=v;}}));
+const requests=[];
+const context=vm.createContext({actionState,manualSheetRects,crypto,PRESETS,document:{getElementById:id=>nodes[id],querySelectorAll:s=>s==='[data-edition]'?buttons:[],createElement:()=>({})},navigator:{},localStorage:{getItem:()=>null},window:{confirm:()=>true,addEventListener(){}},AbortSignal,TextEncoder,Uint8Array,DataView,Blob,Date,console,handoffText:()=>({}),safeName:x=>x,fetch:async(url,options)=>{requests.push({url,options});return url.endsWith('/health')?{ok:true,json:async()=>({stickerSheetConfigured:true,presetVersion:'2026-10-28-photo-head-collage-v1',promptSHA256:hashes})}:{ok:false,status:400,json:async()=>({error:'mock: no image generated'})};}});
+const source=fs.readFileSync(new URL('../assets/sticker-app.mjs',import.meta.url),'utf8').replace(/^import .*;\r?\n/gm,'');
+vm.runInContext(source,context);
+for(const edition of Object.keys(PRESETS)){
+ assert.equal(PRESETS[edition].items.length,16);
+ const b=buttons.find(b=>b.dataset.edition===edition);b.onclick();
+ assert.equal(nodes.edition.value,edition);
+ assert.deepEqual(buttons.filter(b=>b['aria-pressed']==='true').map(b=>b.dataset.edition),[edition]);
+ assert.equal(nodes.phrases.children.length,16);
+ vm.runInContext("photo='mock portrait';token='mock token';",context);
+ await nodes.generate.onclick();
+ const request=requests.at(-1);assert.equal(request.url.endsWith('/generate'),true);
+ assert.equal(JSON.parse(request.options.body).edition,edition);
+ nodes.edition.value=edition;nodes.edition.onchange();assert.equal(b['aria-pressed'],'true');
+ vm.runInContext('busy=true',context);buttons.find(other=>other!==b).onclick();assert.equal(nodes.edition.value,edition);vm.runInContext('busy=false',context);
+}
+assert.match(PRESETS['gk-jojo'].prompt,/Extra-bold Japanese/);
+assert.match(PRESETS['golf-jojo'].prompt,/face, hair, ears/);
+const beforeCancel=requests.length;context.window.confirm=()=>false;await nodes.generate.onclick();assert.equal(requests.length,beforeCancel);context.window.confirm=()=>true;const callCount=requests.length;hashes.gk='mismatch';nodes.edition.value='gk';await nodes.generate.onclick();assert.equal(requests.length,callCount+1);assert.match(nodes.status.textContent,/一致しません/);
+console.log('PASS: rejects prompt mismatch before generation; initialization, 4 image choices, dropdown, exclusive selection, busy guard, and 4 mocked generation edition payloads; no network calls.');
