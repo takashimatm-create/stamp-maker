@@ -1,286 +1,213 @@
-// Four fixed patterns. Adult face and hair always faithfully photorealistic.
+// Exact user-supplied prompts. Literal newlines are intentional template literals.
 export const PRESETS={
   "golf": {
     "name": "ゴルフ版",
-    "items": [
-      {
-        "text": "おはようございます！",
-        "scene": "片手を上げてあいさつ。横にキャディバッグ。晴れたゴルフ場と太陽。"
-      },
-      {
-        "text": "流石だね！",
-        "scene": "白いポロシャツでサムズアップ。キリッとした表情。"
-      },
-      {
-        "text": "いい読みだ",
-        "scene": "グリーン上でしゃがんでラインを読む。パターとボール、奥に旗。"
-      },
-      {
-        "text": "無理せず、できることをやろう！",
-        "scene": "サンバイザー姿で水筒の水を飲む。ゴルフ場。"
-      },
-      {
-        "text": "行ってきます！",
-        "scene": "黄色いポロシャツでバッグを肩に掛け、ガッツポーズ。笑顔。"
-      },
-      {
-        "text": "やっとバンカーから脱出！",
-        "scene": "バンカーショットの瞬間。砂が大きく舞う。"
-      },
-      {
-        "text": "やったぜ！",
-        "scene": "青いポロシャツでガッツポーズ。満面の笑み。"
-      },
-      {
-        "text": "確認します！",
-        "scene": "ノートパソコンの画面を真剣に見る。"
-      },
-      {
-        "text": "ダボちんスキー",
-        "scene": "頭を抱えて落ち込む。倒れたドライバーとボール。頭上にもやもや。"
-      },
-      {
-        "text": "神様ありがとう！",
-        "scene": "緑のポロシャツで空を見上げて指さす。キラキラ。"
-      },
-      {
-        "text": "すみません！修行が足りない…練習してきます",
-        "scene": "キャディバッグを担いだ後ろ姿で練習場へ向かう。「練習場」の看板。"
-      },
-      {
-        "text": "OK！その調子！",
-        "scene": "白いポロシャツでサムズアップ。勢いの線。"
-      },
-      {
-        "text": "今から帰るよー",
-        "scene": "キャディバッグを担いだ後ろ姿で手を振る。奥にゴルフカート。"
-      },
-      {
-        "text": "ありがとうございます！",
-        "scene": "両手を合わせて感謝。ハート。スコアカード。"
-      },
-      {
-        "text": "スコアは忘れてとりあえず飲もう！",
-        "scene": "ビールジョッキを持ってサムズアップ。枝豆とおつまみ。"
-      },
-      {
-        "text": "おやすみ！",
-        "scene": "布団で気持ちよく寝ている。夢の吹き出しにゴルフ場と「バーディー！」の文字。Zzz。"
-      }
-    ],
-    "prompt": "最優先：写真を忠実に再現して！ Face and hair must be photorealistic, faithfully matching the supplied photograph, NOT illustrated, cartooned, painted, beautified, de-aged or stylized. Preserve actual facial geometry, age, hair and skin texture. Stylize ONLY bodies, clothes, hands, children, props and backgrounds.\n添付写真を本人の参照画像として、以下の条件を厳守したLINEスタンプ一覧画像を1枚作ってください。\n\n\n- 横長3:2の画像1枚に4列×4行の16コマ。左上から右へ、上段から順番。\n- 真っ白な背景。枠線・罫線なし。コマ間に十分な白い余白を設け、絵・文字・効果を各コマ内に完全に収める。\n- 最優先の固定指示：「写真を忠実に再現して！」。その回に添付された本人の顔写真を忠実に再現する。顔・髪は写真同等の写実表現にし、イラスト化・似顔絵化・アニメ化・水彩化・デフォルメをしない。顔立ち、目鼻口の形と位置、顔の輪郭、髪型、髪色、肌の質感、年齢感を変えず、美化・若返り・別人化をしない。表情だけは各場面に合わせて自然に変える。首から下の体・腕・手・服と、子ども・道具・背景のみ指定のイラスト調にする。顔の写実感を保ったまま、首の境目・光・色を自然になじませる。「自然になじませる」ために顔までイラスト化してはいけない。\n- 指定文言を一字一句そのまま使用。誤字・脱字・言い換え禁止。太く読みやすい手書き風文字に白フチ。\n- ブランド・企業ロゴ、実在商品名、マークは描かない。服や道具は無地。参照写真に写るロゴも引き継がない。以前のGKロゴ追加指定はこの標準には適用しない。\n\n\n\n\n\n胴体の画風は、ユーザー添付「ゴルフ版フォーマット.png」に近い自然な体のバランス・ポーズ・服のしわ・立体感を持つ、鮮明で丁寧なカラーイラストに固定する。首から下（体・服・腕・手）、道具、背景のみイラスト。極端なミニキャラ化・幼児化・平面的な簡略化・強すぎるアニメ表現を避ける。写真の本人の顔・髪の写実表現を維持し、胴体の画風を顔に適用しない。参考見本の人物の顔やロゴはコピーしない。服は無地のゴルフ用ポロシャツで白・紺・青・黄・緑などコマごとに変更可。ゴルフ場・練習場の背景は必要なコマのみ。以下の文言・場面は見本画像内の文言に置き換えず、そのまま使う。\n\n1. 「おはようございます！」／片手を上げてあいさつ。横にキャディバッグ。晴れたゴルフ場と太陽。\n2. 「流石だね！」／白いポロシャツでサムズアップ。キリッとした表情。\n3. 「いい読みだ」／グリーン上でしゃがんでラインを読む。パターとボール、奥に旗。\n4. 「無理せず、できることをやろう！」／サンバイザー姿で水筒の水を飲む。ゴルフ場。\n5. 「行ってきます！」／黄色いポロシャツでバッグを肩に掛け、ガッツポーズ。笑顔。\n6. 「やっとバンカーから脱出！」／バンカーショットの瞬間。砂が大きく舞う。\n7. 「やったぜ！」／青いポロシャツでガッツポーズ。満面の笑み。\n8. 「確認します！」／ノートパソコンの画面を真剣に見る。\n9. 「ダボちんスキー」／頭を抱えて落ち込む。倒れたドライバーとボール。頭上にもやもや。\n10. 「神様ありがとう！」／緑のポロシャツで空を見上げて指さす。キラキラ。\n11. 「すみません！修行が足りない…練習してきます」／キャディバッグを担いだ後ろ姿で練習場へ向かう。「練習場」の看板。\n12. 「OK！その調子！」／白いポロシャツでサムズアップ。勢いの線。\n13. 「今から帰るよー」／キャディバッグを担いだ後ろ姿で手を振る。奥にゴルフカート。\n14. 「ありがとうございます！」／両手を合わせて感謝。ハート。スコアカード。\n15. 「スコアは忘れてとりあえず飲もう！」／ビールジョッキを持ってサムズアップ。枝豆とおつまみ。\n16. 「おやすみ！」／布団で気持ちよく寝ている。夢の吹き出しにゴルフ場と「バーディー！」の文字。Zzz。\n\n\n構図は均等な4列×4行です。全コマ内の文字と絵を端から離し、コマ間に十分な完全な白い余白を設けてください。写真の背景・商品・ロゴは使わず、本人の顔立ちと髪型・髪色・年齢感・肌の質感を忠実に再現してください。写真に忠実な写実的な顔と髪を、イラストの体へ光・色・首の境目を整えて自然につなげてください。自然につなぐために顔や髪をイラスト化してはいけません。指定された文言以外の余計な文字・番号は入れないでください。\n\n【毎回固定：イラスト部分を少しリアルに】大人の首から下・胴体・腕・手・服・道具・背景は、イラストと分かる表現を維持しつつ、従来より一段だけ写実寄りのセミリアルなカラーイラストにする。実際の骨格・肩幅・手足の比率・指の関節に沿い、自然な筋肉の起伏、布の厚み・縫い目・しわ、素材の質感、柔らかな光と陰影で立体感を出す。太すぎる輪郭、平坦なベタ塗り、極端な頭身や漫画的な手足を避ける。本人の顔と髪は写真同等の写実表現のまま、顔立ち・髪型・髪色・年齢感を忠実に維持する。GKの子どもは架空の人物で顔・髪・体すべてイラスト調を維持し、自然な体の比率と柔らかな立体的な陰影を加えるが、実写・写真風にはしない。16文言・場面・人数・服装・白背景・4列4行・余白・ロゴなしの指定は変えない。"
+    "items": [{"text":"おはようございます！","scene":"片手を上げてあいさつ。横にキャディバッグ。晴れたゴルフ場と太陽。"},{"text":"流石だね！","scene":"白いポロシャツでサムズアップ。キリッとした表情。"},{"text":"いい読みだ","scene":"グリーン上でしゃがんでラインを読む。パターとボール、奥に旗。"},{"text":"無理せず、できることをやろう！","scene":"サンバイザー姿で水筒の水を飲む。ゴルフ場。"},{"text":"行ってきます！","scene":"黄色いポロシャツでバッグを肩に掛け、ガッツポーズ。笑顔。"},{"text":"やっとバンカーから脱出！","scene":"バンカーショットの瞬間。砂が大きく舞う。"},{"text":"やったぜ！","scene":"青いポロシャツでガッツポーズ。満面の笑み。"},{"text":"確認します！","scene":"ノートパソコンの画面を真剣に見る。"},{"text":"ダボちんスキー","scene":"頭を抱えて落ち込む。倒れたドライバーとボール。頭上にもやもや。"},{"text":"神様ありがとう！","scene":"緑のポロシャツで空を見上げて指さす。キラキラ。"},{"text":"すみません！修行が足りない…練習してきます","scene":"キャディバッグを担いだ後ろ姿で練習場へ向かう。「練習場」の看板。"},{"text":"OK！その調子！","scene":"白いポロシャツでサムズアップ。勢いの線。"},{"text":"今から帰るよー","scene":"キャディバッグを担いだ後ろ姿で手を振る。奥にゴルフカート。"},{"text":"ありがとうございます！","scene":"両手を合わせて感謝。ハート。スコアカード。"},{"text":"スコアは忘れてとりあえず飲もう！","scene":"ビールジョッキを持ってサムズアップ。枝豆とおつまみ。"},{"text":"おやすみ！","scene":"布団で気持ちよく寝ている。夢の吹き出しにゴルフ場と「バーディー！」の文字。Zzz。"}],
+    "prompt": `TASK: Using the attached photo, create ONE LINE sticker sheet image.
+
+STYLE CONCEPT (intentional mixed media): "photo-head collage stickers".
+The adult's head is a REAL PHOTOGRAPH cut out from the attached photo, placed on a hand-drawn illustrated body. The visible style gap between the photo head and the drawn body is DESIRED. Do NOT unify, harmonize or blend the styles.
+
+=== RULE 1: THE HEAD (highest priority, overrides everything else) ===
+- The adult's head (face, hair, ears) must look like an actual photograph of the person in the attached photo: same identity, facial geometry, eye/nose/mouth shape and position, face outline, skin texture with pores and fine wrinkles, real age, hairline, hairstyle, hair color.
+- Show it as a photo cutout with real camera lighting, and a thin white sticker outline around the head.
+- NEVER draw, paint, cartoon, anime, line-art, cel-shade, airbrush, smooth, beautify or de-age the head. When in doubt, make the head MORE photographic, not less.
+- Allowed changes only: a mild expression matching the scene (smile, determined, sad, eyes closed), and head angle within about 30 degrees of the photo. Keep it recognizable as the same person in every panel.
+- Ignore the photo's background, clothes and any logos.
+
+=== RULE 2: EVERYTHING ELSE IS ILLUSTRATION ===
+Body below the neck, clothes, hands, props, effects and backgrounds are illustrated:
+Clean color illustration with natural adult proportions, semi-realistic shading, fabric folds on plain golf polo shirts (colors may change per sticker: white, navy, blue, yellow, green). Not chibi, not flat, not heavy anime. Golf course or driving range backgrounds only where the scene requires.
+
+=== RULE 3: LAYOUT ===
+- Landscape 3:2, exactly 4 columns x 4 rows = 16 stickers, ordered left-to-right, top-to-bottom.
+- Pure white background, no frames or grid lines. Wide white gaps between stickers. Every drawing, text and effect stays fully inside its own cell.
+- Make each head as large as the cell allows (head-and-upper-body framing), except where a full-body pose is specified.
+- No logos, brand names, marks, numbers, or any text other than the specified phrases.
+
+=== RULE 4: TEXT ===
+Use each Japanese phrase exactly as written, character for character. No typos, no paraphrasing, no omissions.
+Bold, friendly hand-lettered Japanese text with a thick white outline.
+
+=== 16 STICKERS (phrase / scene) ===
+1. 「おはようございます！」／片手を上げてあいさつ。横にキャディバッグ。晴れたゴルフ場と太陽。
+2. 「流石だね！」／白いポロシャツでサムズアップ。キリッとした表情。
+3. 「いい読みだ」／グリーン上でしゃがんでラインを読む。パターとボール、奥に旗。
+4. 「無理せず、できることをやろう！」／サンバイザー姿で水筒の水を飲む。ゴルフ場。
+5. 「行ってきます！」／黄色いポロシャツでバッグを肩に掛け、ガッツポーズ。笑顔。
+6. 「やっとバンカーから脱出！」／バンカーショットの瞬間。砂が大きく舞う。
+7. 「やったぜ！」／青いポロシャツでガッツポーズ。満面の笑み。
+8. 「確認します！」／ノートパソコンの画面を真剣に見る。
+9. 「ダボちんスキー」／頭を抱えて落ち込む。倒れたドライバーとボール。頭上にもやもや。
+10. 「神様ありがとう！」／緑のポロシャツで空を見上げて指さす。キラキラ。
+11. 「すみません！修行が足りない…練習してきます」／キャディバッグを担いだ後ろ姿で練習場へ向かう。「練習場」の看板。
+12. 「OK！その調子！」／白いポロシャツでサムズアップ。勢いの線。
+13. 「今から帰るよー」／キャディバッグを担いだ後ろ姿で手を振る。奥にゴルフカート。
+14. 「ありがとうございます！」／両手を合わせて感謝。ハート。スコアカード。
+15. 「スコアは忘れてとりあえず飲もう！」／ビールジョッキを持ってサムズアップ。枝豆とおつまみ。
+16. 「おやすみ！」／布団で気持ちよく寝ている。夢の吹き出しにゴルフ場と「バーディー！」の文字。Zzz。
+
+FINAL CHECK before output: In all 16 stickers, is the adult's head a photograph identical to the attached person, NOT a drawing? If any head looks illustrated, redraw it as a photo cutout.`
   },
   "gk": {
     "name": "ゴールデンキッズ版",
-    "items": [
-      {
-        "text": "いつもありがとう！",
-        "scene": "コーチと子ども2人が笑顔で寄り添う。子どもはサムズアップ。ハート。"
-      },
-      {
-        "text": "ありがとうございます！",
-        "scene": "コーチと子ども2人が目を閉じて両手を合わせる。キラキラ。"
-      },
-      {
-        "text": "ごめんなさい",
-        "scene": "コーチと子ども2人が深く頭を下げる。汗のしずく。"
-      },
-      {
-        "text": "いいね！",
-        "scene": "コーチと子ども2人がそろってサムズアップ。"
-      },
-      {
-        "text": "今日も頑張ろう！",
-        "scene": "コーチと子ども2人がガッツポーズ。にっこり顔の太陽。"
-      },
-      {
-        "text": "一生懸命！汗かいてなんぼ",
-        "scene": "コーチと子ども2人が全力で走る。汗が飛ぶ。"
-      },
-      {
-        "text": "結果よりやろうとした気持ちが大切！",
-        "scene": "コーチが女の子の頭をやさしくなでる。ハート。"
-      },
-      {
-        "text": "信念の継続は力なり！",
-        "scene": "コーチが拳を握って力強い表情。背景に炎。"
-      },
-      {
-        "text": "スポーツは人生の道場だ",
-        "scene": "コーチと子ども3人が遠くを見つめる。青い空の背景。"
-      },
-      {
-        "text": "正解なんてないんだから、自分を信じて進もう！",
-        "scene": "コーチがこちらを指さす。子ども2人がガッツポーズ。上向きの矢印。"
-      },
-      {
-        "text": "コツコツ頑張っている姿を私は知ってるよ！",
-        "scene": "壁の陰からコーチと子ども2人がのぞいている。"
-      },
-      {
-        "text": "ちーん…",
-        "scene": "コーチがひざを抱えて座り込み落ち込む。どんよりした縦線。小さなおばけ。"
-      },
-      {
-        "text": "よろしくお願いします！",
-        "scene": "コーチと子ども2人が立った全身で深くおじぎ。靴まで収める。花。"
-      },
-      {
-        "text": "成長はここから！",
-        "scene": "コーチと子ども2人がガッツポーズ。黄色の大きな上向き矢印。"
-      },
-      {
-        "text": "無限の可能性を感じる！",
-        "scene": "コーチがこちらに手を伸ばす。両側に子ども2人。星空の背景。「感じろ！」に変えない。"
-      },
-      {
-        "text": "意識してやることが大事！",
-        "scene": "コーチがこめかみに指を当てる。女の子が頬に手を当てて考える。電球。"
-      }
-    ],
-    "prompt": "最優先：写真を忠実に再現して！ Face and hair must be photorealistic, faithfully matching the supplied photograph, NOT illustrated, cartooned, painted, beautified, de-aged or stylized. Preserve actual facial geometry, age, hair and skin texture. Stylize ONLY bodies, clothes, hands, children, props and backgrounds.\n添付写真を本人の参照画像として、以下の条件を厳守したLINEスタンプ一覧画像を1枚作ってください。\n\n\n- 横長3:2の画像1枚に4列×4行の16コマ。左上から右へ、上段から順番。\n- 真っ白な背景。枠線・罫線なし。コマ間に十分な白い余白を設け、絵・文字・効果を各コマ内に完全に収める。\n- 最優先の固定指示：「写真を忠実に再現して！」。その回に添付された本人の顔写真を忠実に再現する。顔・髪は写真同等の写実表現にし、イラスト化・似顔絵化・アニメ化・水彩化・デフォルメをしない。顔立ち、目鼻口の形と位置、顔の輪郭、髪型、髪色、肌の質感、年齢感を変えず、美化・若返り・別人化をしない。表情だけは各場面に合わせて自然に変える。首から下の体・腕・手・服と、子ども・道具・背景のみ指定のイラスト調にする。顔の写実感を保ったまま、首の境目・光・色を自然になじませる。「自然になじませる」ために顔までイラスト化してはいけない。\n- 指定文言を一字一句そのまま使用。誤字・脱字・言い換え禁止。太く読みやすい手書き風文字に白フチ。\n- ブランド・企業ロゴ、実在商品名、マークは描かない。服や道具は無地。参照写真に写るロゴも引き継がない。以前のGKロゴ追加指定はこの標準には適用しない。\n\n\n\n\n\nコーチは添付写真の本人。胴体はユーザー添付「ゴールデンキッズ版フォーマット.png」に近い体のバランス・スポーツのポーズ・服の立体感にし、首から下（体・腕・手・服）を鮮明で丁寧なカラーイラストに固定。極端なミニキャラ化・幼児化・平面的な簡略化を避ける。本人の顔と髪は写真に忠実な写実表現のままとし、顔へイラスト調を適用しない。黒いスポーツTシャツに赤いライン、ロゴなし。子どもは架空の4〜7歳くらいの男の子と女の子で、顔・髪・体・腕・手・服まで完全にイラスト調に固定する。子どもを実写・写真風・写実的な人物にしない。参考見本の写真の子どもの顔をそのまま使わない。赤いTシャツ、明るい笑顔。元気で明るいポップな画風。キラキラ、ハート、汗マークなど。参考見本のロゴは再現しない。以下の固定文言・場面はそのまま維持する。\n\n1. 「いつもありがとう！」／コーチと子ども2人が笑顔で寄り添う。子どもはサムズアップ。ハート。\n2. 「ありがとうございます！」／コーチと子ども2人が目を閉じて両手を合わせる。キラキラ。\n3. 「ごめんなさい」／コーチと子ども2人が深く頭を下げる。汗のしずく。\n4. 「いいね！」／コーチと子ども2人がそろってサムズアップ。\n5. 「今日も頑張ろう！」／コーチと子ども2人がガッツポーズ。にっこり顔の太陽。\n6. 「一生懸命！汗かいてなんぼ」／コーチと子ども2人が全力で走る。汗が飛ぶ。\n7. 「結果よりやろうとした気持ちが大切！」／コーチが女の子の頭をやさしくなでる。ハート。\n8. 「信念の継続は力なり！」／コーチが拳を握って力強い表情。背景に炎。\n9. 「スポーツは人生の道場だ」／コーチと子ども3人が遠くを見つめる。青い空の背景。\n10. 「正解なんてないんだから、自分を信じて進もう！」／コーチがこちらを指さす。子ども2人がガッツポーズ。上向きの矢印。\n11. 「コツコツ頑張っている姿を私は知ってるよ！」／壁の陰からコーチと子ども2人がのぞいている。\n12. 「ちーん…」／コーチがひざを抱えて座り込み落ち込む。どんよりした縦線。小さなおばけ。\n13. 「よろしくお願いします！」／コーチと子ども2人が立った全身で深くおじぎ。靴まで収める。花。\n14. 「成長はここから！」／コーチと子ども2人がガッツポーズ。黄色の大きな上向き矢印。\n15. 「無限の可能性を感じる！」／コーチがこちらに手を伸ばす。両側に子ども2人。星空の背景。「感じろ！」に変えない。\n16. 「意識してやることが大事！」／コーチがこめかみに指を当てる。女の子が頬に手を当てて考える。電球。\n\n構図は均等な4列×4行です。全コマ内の文字と絵を端から離し、コマ間に十分な完全な白い余白を設けてください。写真の背景・商品・ロゴは使わず、本人の顔立ちと髪型・髪色・年齢感・肌の質感を忠実に再現してください。写真に忠実な写実的な顔と髪を、イラストの体へ光・色・首の境目を整えて自然につなげてください。自然につなぐために顔や髪をイラスト化してはいけません。指定された文言以外の余計な文字・番号は入れないでください。\n\n【毎回固定：イラスト部分を少しリアルに】大人の首から下・胴体・腕・手・服・道具・背景は、イラストと分かる表現を維持しつつ、従来より一段だけ写実寄りのセミリアルなカラーイラストにする。実際の骨格・肩幅・手足の比率・指の関節に沿い、自然な筋肉の起伏、布の厚み・縫い目・しわ、素材の質感、柔らかな光と陰影で立体感を出す。太すぎる輪郭、平坦なベタ塗り、極端な頭身や漫画的な手足を避ける。本人の顔と髪は写真同等の写実表現のまま、顔立ち・髪型・髪色・年齢感を忠実に維持する。GKの子どもは架空の人物で顔・髪・体すべてイラスト調を維持し、自然な体の比率と柔らかな立体的な陰影を加えるが、実写・写真風にはしない。16文言・場面・人数・服装・白背景・4列4行・余白・ロゴなしの指定は変えない。"
+    "items": [{"text":"いつもありがとう！","scene":"コーチと子ども2人が笑顔で寄り添う。子どもはサムズアップ。ハート。"},{"text":"ありがとうございます！","scene":"コーチと子ども2人が目を閉じて両手を合わせる。キラキラ。"},{"text":"ごめんなさい","scene":"コーチと子ども2人が深く頭を下げる。汗のしずく。"},{"text":"いいね！","scene":"コーチと子ども2人がそろってサムズアップ。"},{"text":"今日も頑張ろう！","scene":"コーチと子ども2人がガッツポーズ。にっこり顔の太陽。"},{"text":"一生懸命！汗かいてなんぼ","scene":"コーチと子ども2人が全力で走る。汗が飛ぶ。"},{"text":"結果よりやろうとした気持ちが大切！","scene":"コーチが女の子の頭をやさしくなでる。ハート。"},{"text":"信念の継続は力なり！","scene":"コーチが拳を握って力強い表情。背景に炎。"},{"text":"スポーツは人生の道場だ","scene":"コーチと子ども3人が遠くを見つめる。青い空の背景。"},{"text":"正解なんてないんだから、自分を信じて進もう！","scene":"コーチがこちらを指さす。子ども2人がガッツポーズ。上向きの矢印。"},{"text":"コツコツ頑張っている姿を私は知ってるよ！","scene":"壁の陰からコーチと子ども2人がのぞいている。"},{"text":"ちーん…","scene":"コーチがひざを抱えて座り込み落ち込む。どんよりした縦線。小さなおばけ。"},{"text":"よろしくお願いします！","scene":"コーチと子ども2人が立った全身で深くおじぎ。靴まで収める。花。"},{"text":"成長はここから！","scene":"コーチと子ども2人がガッツポーズ。黄色の大きな上向き矢印。"},{"text":"無限の可能性を感じる！","scene":"コーチがこちらに手を伸ばす。両側に子ども2人。星空の背景。「感じろ！」に変えない。"},{"text":"意識してやることが大事！","scene":"コーチがこめかみに指を当てる。女の子が頬に手を当てて考える。電球。"}],
+    "prompt": `TASK: Using the attached photo, create ONE LINE sticker sheet image.
+
+STYLE CONCEPT (intentional mixed media): "photo-head collage stickers".
+The adult's head is a REAL PHOTOGRAPH cut out from the attached photo, placed on a hand-drawn illustrated body. The visible style gap between the photo head and the drawn body is DESIRED. Do NOT unify, harmonize or blend the styles.
+
+=== RULE 1: THE HEAD (highest priority, overrides everything else) ===
+- The adult's head (face, hair, ears) must look like an actual photograph of the person in the attached photo: same identity, facial geometry, eye/nose/mouth shape and position, face outline, skin texture with pores and fine wrinkles, real age, hairline, hairstyle, hair color.
+- Show it as a photo cutout with real camera lighting, and a thin white sticker outline around the head.
+- NEVER draw, paint, cartoon, anime, line-art, cel-shade, airbrush, smooth, beautify or de-age the head. When in doubt, make the head MORE photographic, not less.
+- Allowed changes only: a mild expression matching the scene (smile, determined, sad, eyes closed), and head angle within about 30 degrees of the photo. Keep it recognizable as the same person in every panel.
+- Ignore the photo's background, clothes and any logos.
+
+=== RULE 2: EVERYTHING ELSE IS ILLUSTRATION ===
+Body below the neck, clothes, hands, props, effects and backgrounds are illustrated:
+Clean, bright, pop color illustration with semi-realistic proportions and soft shading (natural shoulders, hands with proper fingers, fabric folds). Not chibi, not flat.
+The adult coach wears a plain black sports T-shirt with a red line, no logo.
+The children are fictional boys and girls aged about 4-7, FULLY illustrated (face, hair and body all drawn) in a cheerful pop style, wearing plain red T-shirts. Children must NEVER be photographic. Only the adult's head is a photo.
+Add sparkles, hearts, sweat drops where the scene calls for them.
+
+=== RULE 3: LAYOUT ===
+- Landscape 3:2, exactly 4 columns x 4 rows = 16 stickers, ordered left-to-right, top-to-bottom.
+- Pure white background, no frames or grid lines. Wide white gaps between stickers. Every drawing, text and effect stays fully inside its own cell.
+- Make each head as large as the cell allows (head-and-upper-body framing), except where a full-body pose is specified.
+- No logos, brand names, marks, numbers, or any text other than the specified phrases.
+
+=== RULE 4: TEXT ===
+Use each Japanese phrase exactly as written, character for character. No typos, no paraphrasing, no omissions.
+Bold, friendly hand-lettered Japanese text with a thick white outline.
+
+=== 16 STICKERS (phrase / scene) ===
+1. 「いつもありがとう！」／コーチと子ども2人が笑顔で寄り添う。子どもはサムズアップ。ハート。
+2. 「ありがとうございます！」／コーチと子ども2人が目を閉じて両手を合わせる。キラキラ。
+3. 「ごめんなさい」／コーチと子ども2人が深く頭を下げる。汗のしずく。
+4. 「いいね！」／コーチと子ども2人がそろってサムズアップ。
+5. 「今日も頑張ろう！」／コーチと子ども2人がガッツポーズ。にっこり顔の太陽。
+6. 「一生懸命！汗かいてなんぼ」／コーチと子ども2人が全力で走る。汗が飛ぶ。
+7. 「結果よりやろうとした気持ちが大切！」／コーチが女の子の頭をやさしくなでる。ハート。
+8. 「信念の継続は力なり！」／コーチが拳を握って力強い表情。背景に炎。
+9. 「スポーツは人生の道場だ」／コーチと子ども3人が遠くを見つめる。青い空の背景。
+10. 「正解なんてないんだから、自分を信じて進もう！」／コーチがこちらを指さす。子ども2人がガッツポーズ。上向きの矢印。
+11. 「コツコツ頑張っている姿を私は知ってるよ！」／壁の陰からコーチと子ども2人がのぞいている。
+12. 「ちーん…」／コーチがひざを抱えて座り込み落ち込む。どんよりした縦線。小さなおばけ。
+13. 「よろしくお願いします！」／コーチと子ども2人が立った全身で深くおじぎ。靴まで収める。花。
+14. 「成長はここから！」／コーチと子ども2人がガッツポーズ。黄色の大きな上向き矢印。
+15. 「無限の可能性を感じる！」／コーチがこちらに手を伸ばす。両側に子ども2人。星空の背景。「感じろ！」に変えない。
+16. 「意識してやることが大事！」／コーチがこめかみに指を当てる。女の子が頬に手を当てて考える。電球。
+
+FINAL CHECK before output: In all 16 stickers, is the adult's head a photograph identical to the attached person, NOT a drawing? If any head looks illustrated, redraw it as a photo cutout.`
   },
   "golf-jojo": {
     "name": "ゴルフジョジョ風",
-    "items": [
-      {
-        "text": "おはようございます！",
-        "scene": "片手を上げてあいさつ。横にキャディバッグ。晴れたゴルフ場と太陽。"
-      },
-      {
-        "text": "流石だね！",
-        "scene": "白いポロシャツでサムズアップ。キリッとした表情。"
-      },
-      {
-        "text": "いい読みだ",
-        "scene": "グリーン上でしゃがんでラインを読む。パターとボール、奥に旗。"
-      },
-      {
-        "text": "無理せず、できることをやろう！",
-        "scene": "サンバイザー姿で水筒の水を飲む。ゴルフ場。"
-      },
-      {
-        "text": "行ってきます！",
-        "scene": "黄色いポロシャツでバッグを肩に掛け、ガッツポーズ。笑顔。"
-      },
-      {
-        "text": "やっとバンカーから脱出！",
-        "scene": "バンカーショットの瞬間。砂が大きく舞う。"
-      },
-      {
-        "text": "やったぜ！",
-        "scene": "青いポロシャツでガッツポーズ。満面の笑み。"
-      },
-      {
-        "text": "確認します！",
-        "scene": "ノートパソコンの画面を真剣に見る。"
-      },
-      {
-        "text": "ダボちんスキー",
-        "scene": "頭を抱えて落ち込む。倒れたドライバーとボール。頭上にもやもや。"
-      },
-      {
-        "text": "神様ありがとう！",
-        "scene": "緑のポロシャツで空を見上げて指さす。キラキラ。"
-      },
-      {
-        "text": "すみません！修行が足りない…練習してきます",
-        "scene": "キャディバッグを担いだ後ろ姿で練習場へ向かう。「練習場」の看板。"
-      },
-      {
-        "text": "OK！その調子！",
-        "scene": "白いポロシャツでサムズアップ。勢いの線。"
-      },
-      {
-        "text": "今から帰るよー",
-        "scene": "キャディバッグを担いだ後ろ姿で手を振る。奥にゴルフカート。"
-      },
-      {
-        "text": "ありがとうございます！",
-        "scene": "両手を合わせて感謝。ハート。スコアカード。"
-      },
-      {
-        "text": "スコアは忘れてとりあえず飲もう！",
-        "scene": "ビールジョッキを持ってサムズアップ。枝豆とおつまみ。"
-      },
-      {
-        "text": "おやすみ！",
-        "scene": "布団で気持ちよく寝ている。夢の吹き出しにゴルフ場と「バーディー！」の文字。Zzz。"
-      }
-    ],
-    "prompt": "最優先：写真を忠実に再現して！ Face and hair must be photorealistic, faithfully matching the supplied photograph, NOT illustrated, cartooned, painted, beautified, de-aged or stylized. Preserve actual facial geometry, age, hair and skin texture. Stylize ONLY bodies, clothes, hands, children, props and backgrounds.\n添付写真を本人の参照画像として、以下の条件を厳守したLINEスタンプ一覧画像を1枚作ってください。\n\n\n- 横長3:2の画像1枚に4列×4行の16コマ。左上から右へ、上段から順番。\n- 真っ白な背景。枠線・罫線なし。コマ間に十分な白い余白を設け、絵・文字・効果を各コマ内に完全に収める。\n- 最優先の固定指示：「写真を忠実に再現して！」。その回に添付された本人の顔写真を忠実に再現する。顔・髪は写真同等の写実表現にし、イラスト化・似顔絵化・アニメ化・水彩化・デフォルメをしない。顔立ち、目鼻口の形と位置、顔の輪郭、髪型、髪色、肌の質感、年齢感を変えず、美化・若返り・別人化をしない。表情だけは各場面に合わせて自然に変える。首から下の体・腕・手・服と、子ども・道具・背景のみ指定のイラスト調にする。顔の写実感を保ったまま、首の境目・光・色を自然になじませる。「自然になじませる」ために顔までイラスト化してはいけない。\n- 指定文言を一字一句そのまま使用。誤字・脱字・言い換え禁止。太く読みやすい手書き風文字に白フチ。\n- ブランド・企業ロゴ、実在商品名、マークは描かない。服や道具は無地。参照写真に写るロゴも引き継がない。以前のGKロゴ追加指定はこの標準には適用しない。\n\n\n\n\n\n胴体の画風は、ユーザー添付「ゴルフ版フォーマット.png」に近い自然な体のバランス・ポーズ・服のしわ・立体感を持つ、鮮明で丁寧なカラーイラストに固定する。首から下（体・服・腕・手）、道具、背景のみイラスト。極端なミニキャラ化・幼児化・平面的な簡略化・強すぎるアニメ表現を避ける。写真の本人の顔・髪の写実表現を維持し、胴体の画風を顔に適用しない。参考見本の人物の顔やロゴはコピーしない。服は無地のゴルフ用ポロシャツで白・紺・青・黄・緑などコマごとに変更可。ゴルフ場・練習場の背景は必要なコマのみ。以下の文言・場面は見本画像内の文言に置き換えず、そのまま使う。\n\n1. 「おはようございます！」／片手を上げてあいさつ。横にキャディバッグ。晴れたゴルフ場と太陽。\n2. 「流石だね！」／白いポロシャツでサムズアップ。キリッとした表情。\n3. 「いい読みだ」／グリーン上でしゃがんでラインを読む。パターとボール、奥に旗。\n4. 「無理せず、できることをやろう！」／サンバイザー姿で水筒の水を飲む。ゴルフ場。\n5. 「行ってきます！」／黄色いポロシャツでバッグを肩に掛け、ガッツポーズ。笑顔。\n6. 「やっとバンカーから脱出！」／バンカーショットの瞬間。砂が大きく舞う。\n7. 「やったぜ！」／青いポロシャツでガッツポーズ。満面の笑み。\n8. 「確認します！」／ノートパソコンの画面を真剣に見る。\n9. 「ダボちんスキー」／頭を抱えて落ち込む。倒れたドライバーとボール。頭上にもやもや。\n10. 「神様ありがとう！」／緑のポロシャツで空を見上げて指さす。キラキラ。\n11. 「すみません！修行が足りない…練習してきます」／キャディバッグを担いだ後ろ姿で練習場へ向かう。「練習場」の看板。\n12. 「OK！その調子！」／白いポロシャツでサムズアップ。勢いの線。\n13. 「今から帰るよー」／キャディバッグを担いだ後ろ姿で手を振る。奥にゴルフカート。\n14. 「ありがとうございます！」／両手を合わせて感謝。ハート。スコアカード。\n15. 「スコアは忘れてとりあえず飲もう！」／ビールジョッキを持ってサムズアップ。枝豆とおつまみ。\n16. 「おやすみ！」／布団で気持ちよく寝ている。夢の吹き出しにゴルフ場と「バーディー！」の文字。Zzz。\n\n\n構図は均等な4列×4行です。全コマ内の文字と絵を端から離し、コマ間に十分な完全な白い余白を設けてください。写真の背景・商品・ロゴは使わず、本人の顔立ちと髪型・髪色・年齢感・肌の質感を忠実に再現してください。写真に忠実な写実的な顔と髪を、イラストの体へ光・色・首の境目を整えて自然につなげてください。自然につなぐために顔や髪をイラスト化してはいけません。指定された文言以外の余計な文字・番号は入れないでください。\n\n【毎回固定：イラスト部分を少しリアルに】大人の首から下・胴体・腕・手・服・道具・背景は、イラストと分かる表現を維持しつつ、従来より一段だけ写実寄りのセミリアルなカラーイラストにする。実際の骨格・肩幅・手足の比率・指の関節に沿い、自然な筋肉の起伏、布の厚み・縫い目・しわ、素材の質感、柔らかな光と陰影で立体感を出す。太すぎる輪郭、平坦なベタ塗り、極端な頭身や漫画的な手足を避ける。本人の顔と髪は写真同等の写実表現のまま、顔立ち・髪型・髪色・年齢感を忠実に維持する。GKの子どもは架空の人物で顔・髪・体すべてイラスト調を維持し、自然な体の比率と柔らかな立体的な陰影を加えるが、実写・写真風にはしない。16文言・場面・人数・服装・白背景・4列4行・余白・ロゴなしの指定は変えない。\n\n【ジョジョ風パターン専用・毎回固定】通常版の胴体・服・手・道具・背景の柔らかな描画指定に限り、ジョジョの奇妙な冒険を思わせる迫力ある劇画表現へ置き換える。太く表情豊かなインク線、精緻なクロスハッチング、彫刻的な濃い陰影、自然な運動感のある大胆なポーズと遠近感、紫・エメラルド・金の鮮やかな配色、コマ内に収まる集中線で、承認済みのゴルフジョジョ風試作に近い絵柄に固定する。実在の作品キャラクター・スタンド・特徴的な衣装・ロゴ・余分な擬音は追加しない。最優先の「写真を忠実に再現して！」は絶対に変更しない。添付写真の本人の顔と髪は写真同等の写実表現のまま、顔立ち・肌の質感・髪型・髪色・年齢感を忠実に維持し、顔と髪を劇画化・似顔絵化・漫画化・美化・若返りしない。光と首の境目だけ自然に整える。GKの架空の子どもは顔・髪・体すべて明るく元気なイラストにし、実写化しない。固定16文言・場面・人数・服装・白背景・4列4行・余白・ロゴなしは維持する。\n\n【ジョジョ風の必須品質基準・最優先】顔は添付した本人写真そのものに可能な限り忠実なフォトリアル表現とし、顔・髪・肌を劇画風・漫画風・イラスト風に描き換えない。目鼻口の形と位置、輪郭、髪型、髪色、肌の質感、年齢感を一致させ、ポーズが大胆でも本人と分かる顔を保つ。首から下の身体・衣装・ポーズ・小物・背景だけを、力強い劇画的陰影、彫刻的立体感、誇張された遠近法、躍動的な集中線で表現する。文字は従来の細い手書き文字ではなく、極太の日本語ディスプレイ書体を想定し、太い二重三重の縁取り、黒い強い影、立体的な厚み、斜めの配置、メリハリある大小で強烈なインパクトを出す。各コマで読みやすさを確保し、誤字脱字・欠け・コマ境界のはみ出しを禁止。漫画作品の固有ロゴや既存キャラクターは再現しない。",
+    "items": [{"text":"おはようございます！","scene":"片手を上げてあいさつ。横にキャディバッグ。晴れたゴルフ場と太陽。"},{"text":"流石だね！","scene":"白いポロシャツでサムズアップ。キリッとした表情。"},{"text":"いい読みだ","scene":"グリーン上でしゃがんでラインを読む。パターとボール、奥に旗。"},{"text":"無理せず、できることをやろう！","scene":"サンバイザー姿で水筒の水を飲む。ゴルフ場。"},{"text":"行ってきます！","scene":"黄色いポロシャツでバッグを肩に掛け、ガッツポーズ。笑顔。"},{"text":"やっとバンカーから脱出！","scene":"バンカーショットの瞬間。砂が大きく舞う。"},{"text":"やったぜ！","scene":"青いポロシャツでガッツポーズ。満面の笑み。"},{"text":"確認します！","scene":"ノートパソコンの画面を真剣に見る。"},{"text":"ダボちんスキー","scene":"頭を抱えて落ち込む。倒れたドライバーとボール。頭上にもやもや。"},{"text":"神様ありがとう！","scene":"緑のポロシャツで空を見上げて指さす。キラキラ。"},{"text":"すみません！修行が足りない…練習してきます","scene":"キャディバッグを担いだ後ろ姿で練習場へ向かう。「練習場」の看板。"},{"text":"OK！その調子！","scene":"白いポロシャツでサムズアップ。勢いの線。"},{"text":"今から帰るよー","scene":"キャディバッグを担いだ後ろ姿で手を振る。奥にゴルフカート。"},{"text":"ありがとうございます！","scene":"両手を合わせて感謝。ハート。スコアカード。"},{"text":"スコアは忘れてとりあえず飲もう！","scene":"ビールジョッキを持ってサムズアップ。枝豆とおつまみ。"},{"text":"おやすみ！","scene":"布団で気持ちよく寝ている。夢の吹き出しにゴルフ場と「バーディー！」の文字。Zzz。"}],
+    "prompt": `TASK: Using the attached photo, create ONE LINE sticker sheet image.
+
+STYLE CONCEPT (intentional mixed media): "photo-head collage stickers".
+The adult's head is a REAL PHOTOGRAPH cut out from the attached photo, placed on a hand-drawn illustrated body. The visible style gap between the photo head and the drawn body is DESIRED. Do NOT unify, harmonize or blend the styles.
+
+=== RULE 1: THE HEAD (highest priority, overrides everything else) ===
+- The adult's head (face, hair, ears) must look like an actual photograph of the person in the attached photo: same identity, facial geometry, eye/nose/mouth shape and position, face outline, skin texture with pores and fine wrinkles, real age, hairline, hairstyle, hair color.
+- Show it as a photo cutout with real camera lighting, and a thin white sticker outline around the head.
+- NEVER draw, paint, cartoon, anime, line-art, cel-shade, airbrush, smooth, beautify or de-age the head. When in doubt, make the head MORE photographic, not less.
+- Allowed changes only: a mild expression matching the scene (smile, determined, sad, eyes closed), and head angle within about 30 degrees of the photo. Keep it recognizable as the same person in every panel.
+- Ignore the photo's background, clothes and any logos.
+
+=== RULE 2: EVERYTHING ELSE IS ILLUSTRATION ===
+Body below the neck, clothes, hands, props, effects and backgrounds are illustrated:
+Clean color illustration with natural adult proportions, semi-realistic shading, fabric folds on plain golf polo shirts (colors may change per sticker: white, navy, blue, yellow, green). Not chibi, not flat, not heavy anime. Golf course or driving range backgrounds only where the scene requires.
+Render the illustrated parts (body, clothes, props, background) in a dramatic heavy-ink manga style: bold expressive ink lines, cross-hatching, sculptural dark shadows, dynamic poses with strong perspective, speed lines kept inside the cell, vivid purple / emerald / gold palette. Do not add any existing manga characters, costumes, logos or sound-effect text.
+This ink style applies ONLY below the neck. The adult's head stays an untouched photograph with no ink lines or hatching on it.
+
+=== RULE 3: LAYOUT ===
+- Landscape 3:2, exactly 4 columns x 4 rows = 16 stickers, ordered left-to-right, top-to-bottom.
+- Pure white background, no frames or grid lines. Wide white gaps between stickers. Every drawing, text and effect stays fully inside its own cell.
+- Make each head as large as the cell allows (head-and-upper-body framing), except where a full-body pose is specified.
+- No logos, brand names, marks, numbers, or any text other than the specified phrases.
+
+=== RULE 4: TEXT ===
+Use each Japanese phrase exactly as written, character for character. No typos, no paraphrasing, no omissions.
+Extra-bold Japanese display lettering with double or triple outlines, strong black drop shadow, 3D thickness, slightly slanted, still fully readable and inside the cell.
+
+=== 16 STICKERS (phrase / scene) ===
+1. 「おはようございます！」／片手を上げてあいさつ。横にキャディバッグ。晴れたゴルフ場と太陽。
+2. 「流石だね！」／白いポロシャツでサムズアップ。キリッとした表情。
+3. 「いい読みだ」／グリーン上でしゃがんでラインを読む。パターとボール、奥に旗。
+4. 「無理せず、できることをやろう！」／サンバイザー姿で水筒の水を飲む。ゴルフ場。
+5. 「行ってきます！」／黄色いポロシャツでバッグを肩に掛け、ガッツポーズ。笑顔。
+6. 「やっとバンカーから脱出！」／バンカーショットの瞬間。砂が大きく舞う。
+7. 「やったぜ！」／青いポロシャツでガッツポーズ。満面の笑み。
+8. 「確認します！」／ノートパソコンの画面を真剣に見る。
+9. 「ダボちんスキー」／頭を抱えて落ち込む。倒れたドライバーとボール。頭上にもやもや。
+10. 「神様ありがとう！」／緑のポロシャツで空を見上げて指さす。キラキラ。
+11. 「すみません！修行が足りない…練習してきます」／キャディバッグを担いだ後ろ姿で練習場へ向かう。「練習場」の看板。
+12. 「OK！その調子！」／白いポロシャツでサムズアップ。勢いの線。
+13. 「今から帰るよー」／キャディバッグを担いだ後ろ姿で手を振る。奥にゴルフカート。
+14. 「ありがとうございます！」／両手を合わせて感謝。ハート。スコアカード。
+15. 「スコアは忘れてとりあえず飲もう！」／ビールジョッキを持ってサムズアップ。枝豆とおつまみ。
+16. 「おやすみ！」／布団で気持ちよく寝ている。夢の吹き出しにゴルフ場と「バーディー！」の文字。Zzz。
+
+FINAL CHECK before output: In all 16 stickers, is the adult's head a photograph identical to the attached person, NOT a drawing? If any head looks illustrated, redraw it as a photo cutout.`,
     "family": "golf",
     "visualStyle": "jojo"
   },
   "gk-jojo": {
     "name": "ゴールデンキッズジョジョ風",
-    "items": [
-      {
-        "text": "いつもありがとう！",
-        "scene": "コーチと子ども2人が笑顔で寄り添う。子どもはサムズアップ。ハート。"
-      },
-      {
-        "text": "ありがとうございます！",
-        "scene": "コーチと子ども2人が目を閉じて両手を合わせる。キラキラ。"
-      },
-      {
-        "text": "ごめんなさい",
-        "scene": "コーチと子ども2人が深く頭を下げる。汗のしずく。"
-      },
-      {
-        "text": "いいね！",
-        "scene": "コーチと子ども2人がそろってサムズアップ。"
-      },
-      {
-        "text": "今日も頑張ろう！",
-        "scene": "コーチと子ども2人がガッツポーズ。にっこり顔の太陽。"
-      },
-      {
-        "text": "一生懸命！汗かいてなんぼ",
-        "scene": "コーチと子ども2人が全力で走る。汗が飛ぶ。"
-      },
-      {
-        "text": "結果よりやろうとした気持ちが大切！",
-        "scene": "コーチが女の子の頭をやさしくなでる。ハート。"
-      },
-      {
-        "text": "信念の継続は力なり！",
-        "scene": "コーチが拳を握って力強い表情。背景に炎。"
-      },
-      {
-        "text": "スポーツは人生の道場だ",
-        "scene": "コーチと子ども3人が遠くを見つめる。青い空の背景。"
-      },
-      {
-        "text": "正解なんてないんだから、自分を信じて進もう！",
-        "scene": "コーチがこちらを指さす。子ども2人がガッツポーズ。上向きの矢印。"
-      },
-      {
-        "text": "コツコツ頑張っている姿を私は知ってるよ！",
-        "scene": "壁の陰からコーチと子ども2人がのぞいている。"
-      },
-      {
-        "text": "ちーん…",
-        "scene": "コーチがひざを抱えて座り込み落ち込む。どんよりした縦線。小さなおばけ。"
-      },
-      {
-        "text": "よろしくお願いします！",
-        "scene": "コーチと子ども2人が立った全身で深くおじぎ。靴まで収める。花。"
-      },
-      {
-        "text": "成長はここから！",
-        "scene": "コーチと子ども2人がガッツポーズ。黄色の大きな上向き矢印。"
-      },
-      {
-        "text": "無限の可能性を感じる！",
-        "scene": "コーチがこちらに手を伸ばす。両側に子ども2人。星空の背景。「感じろ！」に変えない。"
-      },
-      {
-        "text": "意識してやることが大事！",
-        "scene": "コーチがこめかみに指を当てる。女の子が頬に手を当てて考える。電球。"
-      }
-    ],
-    "prompt": "最優先：写真を忠実に再現して！ Face and hair must be photorealistic, faithfully matching the supplied photograph, NOT illustrated, cartooned, painted, beautified, de-aged or stylized. Preserve actual facial geometry, age, hair and skin texture. Stylize ONLY bodies, clothes, hands, children, props and backgrounds.\n添付写真を本人の参照画像として、以下の条件を厳守したLINEスタンプ一覧画像を1枚作ってください。\n\n\n- 横長3:2の画像1枚に4列×4行の16コマ。左上から右へ、上段から順番。\n- 真っ白な背景。枠線・罫線なし。コマ間に十分な白い余白を設け、絵・文字・効果を各コマ内に完全に収める。\n- 最優先の固定指示：「写真を忠実に再現して！」。その回に添付された本人の顔写真を忠実に再現する。顔・髪は写真同等の写実表現にし、イラスト化・似顔絵化・アニメ化・水彩化・デフォルメをしない。顔立ち、目鼻口の形と位置、顔の輪郭、髪型、髪色、肌の質感、年齢感を変えず、美化・若返り・別人化をしない。表情だけは各場面に合わせて自然に変える。首から下の体・腕・手・服と、子ども・道具・背景のみ指定のイラスト調にする。顔の写実感を保ったまま、首の境目・光・色を自然になじませる。「自然になじませる」ために顔までイラスト化してはいけない。\n- 指定文言を一字一句そのまま使用。誤字・脱字・言い換え禁止。太く読みやすい手書き風文字に白フチ。\n- ブランド・企業ロゴ、実在商品名、マークは描かない。服や道具は無地。参照写真に写るロゴも引き継がない。以前のGKロゴ追加指定はこの標準には適用しない。\n\n\n\n\n\nコーチは添付写真の本人。胴体はユーザー添付「ゴールデンキッズ版フォーマット.png」に近い体のバランス・スポーツのポーズ・服の立体感にし、首から下（体・腕・手・服）を鮮明で丁寧なカラーイラストに固定。極端なミニキャラ化・幼児化・平面的な簡略化を避ける。本人の顔と髪は写真に忠実な写実表現のままとし、顔へイラスト調を適用しない。黒いスポーツTシャツに赤いライン、ロゴなし。子どもは架空の4〜7歳くらいの男の子と女の子で、顔・髪・体・腕・手・服まで完全にイラスト調に固定する。子どもを実写・写真風・写実的な人物にしない。参考見本の写真の子どもの顔をそのまま使わない。赤いTシャツ、明るい笑顔。元気で明るいポップな画風。キラキラ、ハート、汗マークなど。参考見本のロゴは再現しない。以下の固定文言・場面はそのまま維持する。\n\n1. 「いつもありがとう！」／コーチと子ども2人が笑顔で寄り添う。子どもはサムズアップ。ハート。\n2. 「ありがとうございます！」／コーチと子ども2人が目を閉じて両手を合わせる。キラキラ。\n3. 「ごめんなさい」／コーチと子ども2人が深く頭を下げる。汗のしずく。\n4. 「いいね！」／コーチと子ども2人がそろってサムズアップ。\n5. 「今日も頑張ろう！」／コーチと子ども2人がガッツポーズ。にっこり顔の太陽。\n6. 「一生懸命！汗かいてなんぼ」／コーチと子ども2人が全力で走る。汗が飛ぶ。\n7. 「結果よりやろうとした気持ちが大切！」／コーチが女の子の頭をやさしくなでる。ハート。\n8. 「信念の継続は力なり！」／コーチが拳を握って力強い表情。背景に炎。\n9. 「スポーツは人生の道場だ」／コーチと子ども3人が遠くを見つめる。青い空の背景。\n10. 「正解なんてないんだから、自分を信じて進もう！」／コーチがこちらを指さす。子ども2人がガッツポーズ。上向きの矢印。\n11. 「コツコツ頑張っている姿を私は知ってるよ！」／壁の陰からコーチと子ども2人がのぞいている。\n12. 「ちーん…」／コーチがひざを抱えて座り込み落ち込む。どんよりした縦線。小さなおばけ。\n13. 「よろしくお願いします！」／コーチと子ども2人が立った全身で深くおじぎ。靴まで収める。花。\n14. 「成長はここから！」／コーチと子ども2人がガッツポーズ。黄色の大きな上向き矢印。\n15. 「無限の可能性を感じる！」／コーチがこちらに手を伸ばす。両側に子ども2人。星空の背景。「感じろ！」に変えない。\n16. 「意識してやることが大事！」／コーチがこめかみに指を当てる。女の子が頬に手を当てて考える。電球。\n\n構図は均等な4列×4行です。全コマ内の文字と絵を端から離し、コマ間に十分な完全な白い余白を設けてください。写真の背景・商品・ロゴは使わず、本人の顔立ちと髪型・髪色・年齢感・肌の質感を忠実に再現してください。写真に忠実な写実的な顔と髪を、イラストの体へ光・色・首の境目を整えて自然につなげてください。自然につなぐために顔や髪をイラスト化してはいけません。指定された文言以外の余計な文字・番号は入れないでください。\n\n【毎回固定：イラスト部分を少しリアルに】大人の首から下・胴体・腕・手・服・道具・背景は、イラストと分かる表現を維持しつつ、従来より一段だけ写実寄りのセミリアルなカラーイラストにする。実際の骨格・肩幅・手足の比率・指の関節に沿い、自然な筋肉の起伏、布の厚み・縫い目・しわ、素材の質感、柔らかな光と陰影で立体感を出す。太すぎる輪郭、平坦なベタ塗り、極端な頭身や漫画的な手足を避ける。本人の顔と髪は写真同等の写実表現のまま、顔立ち・髪型・髪色・年齢感を忠実に維持する。GKの子どもは架空の人物で顔・髪・体すべてイラスト調を維持し、自然な体の比率と柔らかな立体的な陰影を加えるが、実写・写真風にはしない。16文言・場面・人数・服装・白背景・4列4行・余白・ロゴなしの指定は変えない。\n\n【ジョジョ風パターン専用・毎回固定】通常版の胴体・服・手・道具・背景の柔らかな描画指定に限り、ジョジョの奇妙な冒険を思わせる迫力ある劇画表現へ置き換える。太く表情豊かなインク線、精緻なクロスハッチング、彫刻的な濃い陰影、自然な運動感のある大胆なポーズと遠近感、紫・エメラルド・金の鮮やかな配色、コマ内に収まる集中線で、承認済みのゴルフジョジョ風試作に近い絵柄に固定する。実在の作品キャラクター・スタンド・特徴的な衣装・ロゴ・余分な擬音は追加しない。最優先の「写真を忠実に再現して！」は絶対に変更しない。添付写真の本人の顔と髪は写真同等の写実表現のまま、顔立ち・肌の質感・髪型・髪色・年齢感を忠実に維持し、顔と髪を劇画化・似顔絵化・漫画化・美化・若返りしない。光と首の境目だけ自然に整える。GKの架空の子どもは顔・髪・体すべて明るく元気なイラストにし、実写化しない。固定16文言・場面・人数・服装・白背景・4列4行・余白・ロゴなしは維持する。\n\n【ジョジョ風の必須品質基準・最優先】顔は添付した本人写真そのものに可能な限り忠実なフォトリアル表現とし、顔・髪・肌を劇画風・漫画風・イラスト風に描き換えない。目鼻口の形と位置、輪郭、髪型、髪色、肌の質感、年齢感を一致させ、ポーズが大胆でも本人と分かる顔を保つ。首から下の身体・衣装・ポーズ・小物・背景だけを、力強い劇画的陰影、彫刻的立体感、誇張された遠近法、躍動的な集中線で表現する。文字は従来の細い手書き文字ではなく、極太の日本語ディスプレイ書体を想定し、太い二重三重の縁取り、黒い強い影、立体的な厚み、斜めの配置、メリハリある大小で強烈なインパクトを出す。各コマで読みやすさを確保し、誤字脱字・欠け・コマ境界のはみ出しを禁止。漫画作品の固有ロゴや既存キャラクターは再現しない。",
+    "items": [{"text":"いつもありがとう！","scene":"コーチと子ども2人が笑顔で寄り添う。子どもはサムズアップ。ハート。"},{"text":"ありがとうございます！","scene":"コーチと子ども2人が目を閉じて両手を合わせる。キラキラ。"},{"text":"ごめんなさい","scene":"コーチと子ども2人が深く頭を下げる。汗のしずく。"},{"text":"いいね！","scene":"コーチと子ども2人がそろってサムズアップ。"},{"text":"今日も頑張ろう！","scene":"コーチと子ども2人がガッツポーズ。にっこり顔の太陽。"},{"text":"一生懸命！汗かいてなんぼ","scene":"コーチと子ども2人が全力で走る。汗が飛ぶ。"},{"text":"結果よりやろうとした気持ちが大切！","scene":"コーチが女の子の頭をやさしくなでる。ハート。"},{"text":"信念の継続は力なり！","scene":"コーチが拳を握って力強い表情。背景に炎。"},{"text":"スポーツは人生の道場だ","scene":"コーチと子ども3人が遠くを見つめる。青い空の背景。"},{"text":"正解なんてないんだから、自分を信じて進もう！","scene":"コーチがこちらを指さす。子ども2人がガッツポーズ。上向きの矢印。"},{"text":"コツコツ頑張っている姿を私は知ってるよ！","scene":"壁の陰からコーチと子ども2人がのぞいている。"},{"text":"ちーん…","scene":"コーチがひざを抱えて座り込み落ち込む。どんよりした縦線。小さなおばけ。"},{"text":"よろしくお願いします！","scene":"コーチと子ども2人が立った全身で深くおじぎ。靴まで収める。花。"},{"text":"成長はここから！","scene":"コーチと子ども2人がガッツポーズ。黄色の大きな上向き矢印。"},{"text":"無限の可能性を感じる！","scene":"コーチがこちらに手を伸ばす。両側に子ども2人。星空の背景。「感じろ！」に変えない。"},{"text":"意識してやることが大事！","scene":"コーチがこめかみに指を当てる。女の子が頬に手を当てて考える。電球。"}],
+    "prompt": `TASK: Using the attached photo, create ONE LINE sticker sheet image.
+
+STYLE CONCEPT (intentional mixed media): "photo-head collage stickers".
+The adult's head is a REAL PHOTOGRAPH cut out from the attached photo, placed on a hand-drawn illustrated body. The visible style gap between the photo head and the drawn body is DESIRED. Do NOT unify, harmonize or blend the styles.
+
+=== RULE 1: THE HEAD (highest priority, overrides everything else) ===
+- The adult's head (face, hair, ears) must look like an actual photograph of the person in the attached photo: same identity, facial geometry, eye/nose/mouth shape and position, face outline, skin texture with pores and fine wrinkles, real age, hairline, hairstyle, hair color.
+- Show it as a photo cutout with real camera lighting, and a thin white sticker outline around the head.
+- NEVER draw, paint, cartoon, anime, line-art, cel-shade, airbrush, smooth, beautify or de-age the head. When in doubt, make the head MORE photographic, not less.
+- Allowed changes only: a mild expression matching the scene (smile, determined, sad, eyes closed), and head angle within about 30 degrees of the photo. Keep it recognizable as the same person in every panel.
+- Ignore the photo's background, clothes and any logos.
+
+=== RULE 2: EVERYTHING ELSE IS ILLUSTRATION ===
+Body below the neck, clothes, hands, props, effects and backgrounds are illustrated:
+Clean, bright, pop color illustration with semi-realistic proportions and soft shading (natural shoulders, hands with proper fingers, fabric folds). Not chibi, not flat.
+The adult coach wears a plain black sports T-shirt with a red line, no logo.
+The children are fictional boys and girls aged about 4-7, FULLY illustrated (face, hair and body all drawn) in a cheerful pop style, wearing plain red T-shirts. Children must NEVER be photographic. Only the adult's head is a photo.
+Add sparkles, hearts, sweat drops where the scene calls for them.
+Render the illustrated parts (body, clothes, props, background) in a dramatic heavy-ink manga style: bold expressive ink lines, cross-hatching, sculptural dark shadows, dynamic poses with strong perspective, speed lines kept inside the cell, vivid purple / emerald / gold palette. Do not add any existing manga characters, costumes, logos or sound-effect text.
+This ink style applies ONLY below the neck. The adult's head stays an untouched photograph with no ink lines or hatching on it.
+Children stay bright, cheerful, fully illustrated, never photographic.
+
+=== RULE 3: LAYOUT ===
+- Landscape 3:2, exactly 4 columns x 4 rows = 16 stickers, ordered left-to-right, top-to-bottom.
+- Pure white background, no frames or grid lines. Wide white gaps between stickers. Every drawing, text and effect stays fully inside its own cell.
+- Make each head as large as the cell allows (head-and-upper-body framing), except where a full-body pose is specified.
+- No logos, brand names, marks, numbers, or any text other than the specified phrases.
+
+=== RULE 4: TEXT ===
+Use each Japanese phrase exactly as written, character for character. No typos, no paraphrasing, no omissions.
+Extra-bold Japanese display lettering with double or triple outlines, strong black drop shadow, 3D thickness, slightly slanted, still fully readable and inside the cell.
+
+=== 16 STICKERS (phrase / scene) ===
+1. 「いつもありがとう！」／コーチと子ども2人が笑顔で寄り添う。子どもはサムズアップ。ハート。
+2. 「ありがとうございます！」／コーチと子ども2人が目を閉じて両手を合わせる。キラキラ。
+3. 「ごめんなさい」／コーチと子ども2人が深く頭を下げる。汗のしずく。
+4. 「いいね！」／コーチと子ども2人がそろってサムズアップ。
+5. 「今日も頑張ろう！」／コーチと子ども2人がガッツポーズ。にっこり顔の太陽。
+6. 「一生懸命！汗かいてなんぼ」／コーチと子ども2人が全力で走る。汗が飛ぶ。
+7. 「結果よりやろうとした気持ちが大切！」／コーチが女の子の頭をやさしくなでる。ハート。
+8. 「信念の継続は力なり！」／コーチが拳を握って力強い表情。背景に炎。
+9. 「スポーツは人生の道場だ」／コーチと子ども3人が遠くを見つめる。青い空の背景。
+10. 「正解なんてないんだから、自分を信じて進もう！」／コーチがこちらを指さす。子ども2人がガッツポーズ。上向きの矢印。
+11. 「コツコツ頑張っている姿を私は知ってるよ！」／壁の陰からコーチと子ども2人がのぞいている。
+12. 「ちーん…」／コーチがひざを抱えて座り込み落ち込む。どんよりした縦線。小さなおばけ。
+13. 「よろしくお願いします！」／コーチと子ども2人が立った全身で深くおじぎ。靴まで収める。花。
+14. 「成長はここから！」／コーチと子ども2人がガッツポーズ。黄色の大きな上向き矢印。
+15. 「無限の可能性を感じる！」／コーチがこちらに手を伸ばす。両側に子ども2人。星空の背景。「感じろ！」に変えない。
+16. 「意識してやることが大事！」／コーチがこめかみに指を当てる。女の子が頬に手を当てて考える。電球。
+
+FINAL CHECK before output: In all 16 stickers, is the adult's head a photograph identical to the attached person, NOT a drawing? If any head looks illustrated, redraw it as a photo cutout.`,
     "family": "gk",
     "visualStyle": "jojo"
   }
