@@ -1,4 +1,4 @@
-import {actionState,manualSheetRects} from '../assets/sticker-actions.mjs';
+import {actionState,manualSheetRects,parseCutPosition} from '../assets/sticker-actions.mjs';
 import {webcrypto as crypto} from 'node:crypto';
 const hashes=JSON.parse(fs.readFileSync(new URL('./fixtures/photo-head-prompt-hashes.json',import.meta.url),'utf8')).promptSHA256;
 import assert from 'node:assert/strict';
@@ -11,7 +11,7 @@ for(const [,id] of html.matchAll(/id="([^"]+)"/g))nodes[id]={value:'',checked:fa
 nodes.edition.value='gk';nodes.creatorName.value='tester';
 const buttons=Object.keys(PRESETS).map(edition=>({dataset:{edition},setAttribute(k,v){this[k]=v;}}));
 const requests=[];
-const context=vm.createContext({actionState,manualSheetRects,crypto,PRESETS,document:{getElementById:id=>nodes[id],querySelectorAll:s=>s==='[data-edition]'?buttons:[],createElement:()=>({})},navigator:{},localStorage:{getItem:()=>null},window:{confirm:()=>true,addEventListener(){}},AbortSignal,TextEncoder,Uint8Array,DataView,Blob,Date,console,handoffText:()=>({}),safeName:x=>x,fetch:async(url,options)=>{requests.push({url,options});return url.endsWith('/health')?{ok:true,json:async()=>({stickerSheetConfigured:true,presetVersion:'2026-10-28-photo-head-collage-v1',promptSHA256:hashes})}:{ok:false,status:400,json:async()=>({error:'mock: no image generated'})};}});
+const context=vm.createContext({setTimeout,clearTimeout,actionState,manualSheetRects,parseCutPosition,crypto,PRESETS,document:{getElementById:id=>nodes[id],querySelectorAll:s=>s==='[data-edition]'?buttons:[],createElement:()=>({})},navigator:{},localStorage:{getItem:()=>null},window:{confirm:()=>true,addEventListener(){}},AbortSignal,TextEncoder,Uint8Array,DataView,Blob,Date,console,handoffText:()=>({}),safeName:x=>x,fetch:async(url,options)=>{requests.push({url,options});return url.endsWith('/health')?{ok:true,json:async()=>({stickerSheetConfigured:true,presetVersion:'2026-11-01-wide-gutters-v1',promptSHA256:hashes})}:{ok:false,status:400,json:async()=>({error:'mock: no image generated'})};}});
 const source=fs.readFileSync(new URL('../assets/sticker-app.mjs',import.meta.url),'utf8').replace(/^import .*;\r?\n/gm,'');
 vm.runInContext(source,context);
 for(const edition of Object.keys(PRESETS)){

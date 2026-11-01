@@ -1,4 +1,4 @@
-// Exact user-supplied prompts. Literal newlines are intentional template literals.
+// JoJo safe margins are fixed for every generation.
 export const PRESETS={
   "golf": {
     "name": "ゴルフ版",
@@ -125,8 +125,17 @@ This ink style applies ONLY below the neck. The adult's head stays an untouched 
 === RULE 3: LAYOUT ===
 - Landscape 3:2, exactly 4 columns x 4 rows = 16 stickers, ordered left-to-right, top-to-bottom.
 - Pure white background, no frames or grid lines. Wide white gaps between stickers. Every drawing, text and effect stays fully inside its own cell.
-- Make each head as large as the cell allows (head-and-upper-body framing), except where a full-body pose is specified.
+- Use head-and-upper-body framing, except where a full-body pose is specified. Keep the head and all other content inside the mandatory inset safe area; the fixed white margins take priority over making the head large.
 - No logos, brand names, marks, numbers, or any text other than the specified phrases.
+
+=== FIXED JOJO SAFE MARGINS (mandatory for every generation) ===
+- Use sixteen equal cells. At 1536 x 1024, each cell is 384 x 256 pixels.
+- In EACH cell, reserve an entirely pure-white inset of at least 6% of that cell's width on BOTH the left and right (about 23 pixels per side), and at least 8% of that cell's height on BOTH the top and bottom (about 20 pixels per side).
+- Keep the COMPLETE sticker composition inside the remaining central safe area: adult, illustrated bodies and children, props, Japanese text, all white outlines, black shadows, 3D letter thickness, flames, sparkles, speed lines and every other effect.
+- This creates continuous pure-white gutters between neighbouring cells of at least 12% of one cell's width (about 46 pixels) horizontally and 16% of one cell's height (about 41 pixels) vertically. Keep the same white safety margins at the outside edges of the sheet.
+- Leave these gutters completely empty: no ink, colour, gradients, shadows, outlines or effects, even faint ones. Do not connect neighbouring stickers or let letters and effects touch a cell boundary.
+- Scale down and reposition the entire composition as needed to preserve these margins. Never enlarge the head, body or lettering into the reserved whitespace, and never crop any content to make it fit. Preserve all 16 exact phrases and scenes, the photo-head rule and readable bold lettering.
+- FINAL LAYOUT CHECK: verify all three vertical and all three horizontal gutters are uninterrupted pure white across the whole sheet, and every complete sticker fits inside its own inset safe area. This margin rule is fixed for every JoJo-style generation.
 
 === RULE 4: TEXT ===
 Use each Japanese phrase exactly as written, character for character. No typos, no paraphrasing, no omissions.
@@ -182,8 +191,17 @@ Children stay bright, cheerful, fully illustrated, never photographic.
 === RULE 3: LAYOUT ===
 - Landscape 3:2, exactly 4 columns x 4 rows = 16 stickers, ordered left-to-right, top-to-bottom.
 - Pure white background, no frames or grid lines. Wide white gaps between stickers. Every drawing, text and effect stays fully inside its own cell.
-- Make each head as large as the cell allows (head-and-upper-body framing), except where a full-body pose is specified.
+- Use head-and-upper-body framing, except where a full-body pose is specified. Keep the head and all other content inside the mandatory inset safe area; the fixed white margins take priority over making the head large.
 - No logos, brand names, marks, numbers, or any text other than the specified phrases.
+
+=== FIXED JOJO SAFE MARGINS (mandatory for every generation) ===
+- Use sixteen equal cells. At 1536 x 1024, each cell is 384 x 256 pixels.
+- In EACH cell, reserve an entirely pure-white inset of at least 6% of that cell's width on BOTH the left and right (about 23 pixels per side), and at least 8% of that cell's height on BOTH the top and bottom (about 20 pixels per side).
+- Keep the COMPLETE sticker composition inside the remaining central safe area: adult, illustrated bodies and children, props, Japanese text, all white outlines, black shadows, 3D letter thickness, flames, sparkles, speed lines and every other effect.
+- This creates continuous pure-white gutters between neighbouring cells of at least 12% of one cell's width (about 46 pixels) horizontally and 16% of one cell's height (about 41 pixels) vertically. Keep the same white safety margins at the outside edges of the sheet.
+- Leave these gutters completely empty: no ink, colour, gradients, shadows, outlines or effects, even faint ones. Do not connect neighbouring stickers or let letters and effects touch a cell boundary.
+- Scale down and reposition the entire composition as needed to preserve these margins. Never enlarge the head, body or lettering into the reserved whitespace, and never crop any content to make it fit. Preserve all 16 exact phrases and scenes, the photo-head rule and readable bold lettering.
+- FINAL LAYOUT CHECK: verify all three vertical and all three horizontal gutters are uninterrupted pure white across the whole sheet, and every complete sticker fits inside its own inset safe area. This margin rule is fixed for every JoJo-style generation.
 
 === RULE 4: TEXT ===
 Use each Japanese phrase exactly as written, character for character. No typos, no paraphrasing, no omissions.

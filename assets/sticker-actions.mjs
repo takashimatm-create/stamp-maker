@@ -10,3 +10,6 @@ export function manualSheetRects(width,height,cuts){
  for(let row=0;row<4;row++)for(let col=0;col<4;col++){const cell={x:xs[col],y:ys[row],w:xs[col+1]-xs[col],h:ys[row+1]-ys[row]};rects.push({...cell,cell:{...cell}});}
  return {ok:true,mode:'manual',rects};
 }
+
+// Parse typed percentages without treating an empty field as zero.
+export function parseCutPosition(raw,{round=false}={}){if(typeof raw!=='number'&&typeof raw!=='string')return null;if(String(raw).trim()==='')return null;const number=Number(raw);if(!Number.isFinite(number)||number<2||number>98)return null;const value=Math.round((number+Number.EPSILON)*10)/10;if(!round&&Math.abs(number-value)>1e-7)return null;return value;}
