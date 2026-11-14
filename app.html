@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#172b4d"><meta name="robots" content="noindex,nofollow"><title>スタンプメーカー</title>
+<link rel="icon" type="image/png" href="assets/icon-192.png"><link rel="apple-touch-icon" href="assets/apple-touch-icon.png"><link rel="manifest" href="manifest.webmanifest"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="スタンプ"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<style>
+:root{font-family:-apple-system,BlinkMacSystemFont,'BIZ UDPGothic','Noto Sans JP',sans-serif;color:#172b4d;background:#f3f6fa;--blue:#1763d3;--line:#d4deeb}
+*{box-sizing:border-box}body{margin:0;padding-bottom:40px}[hidden]{display:none!important}
+header{background:#172b4d;color:#fff;padding:14px max(16px,calc((100vw - 820px)/2)) 0}
+header h1{font-size:19px;margin:0 0 10px}
+.steps{display:flex;gap:4px;margin:0;padding:0;list-style:none}
+.steps li{flex:1}
+.steps a{display:block;text-align:center;padding:10px 4px;font-size:13px;font-weight:700;color:#b9c7dc;text-decoration:none;border-radius:10px 10px 0 0}
+.steps a[aria-current="step"]{background:#f3f6fa;color:#172b4d}
+.steps a.done{color:#8fd9a8}
+main{max-width:860px;margin:auto;padding:14px}
+.panel{background:#fff;padding:18px;border-radius:16px;margin-bottom:14px;box-shadow:0 3px 14px #172b4d0b}
+h2{font-size:18px;margin:0 0 12px}h3{font-size:15px;margin:18px 0 8px}
+p{line-height:1.7;margin:8px 0}.help{font-size:13px;color:#5b6d85;line-height:1.7;margin:8px 0}
+label{display:block;font-weight:700;margin:14px 0 6px}
+input:not([type=checkbox]):not([type=file]):not([type=range]),select,textarea{width:100%;font:inherit;border:1px solid #c7d0df;border-radius:10px;padding:12px;background:#fff}
+input[type=file]{width:100%;font:inherit;padding:10px;border:1px dashed #9fb2cf;border-radius:10px;background:#f8fafd}
+textarea{resize:vertical;line-height:1.6}
+button{font:inherit;font-weight:700;border:0;border-radius:12px;padding:13px 18px;background:var(--blue);color:#fff;cursor:pointer;min-height:48px}
+button.secondary{background:#eaf0f9;color:#23436a}
+button:disabled{opacity:.4;cursor:default}
+button.big{display:block;width:100%;font-size:17px;min-height:56px;margin:14px 0 6px}
+.row{display:flex;gap:10px;flex-wrap:wrap}.row>*{flex:1 1 160px}
+.status{padding:12px 14px;border-radius:10px;background:#eef4fc;white-space:pre-line;line-height:1.7;font-size:14px;margin:10px 0}
+.next{font-size:13px;color:#8c4300;min-height:1.4em;margin:4px 2px}
+.check{display:flex;gap:10px;align-items:flex-start;font-weight:700;margin:14px 0;line-height:1.6}
+.check input{margin-top:5px;width:20px;height:20px;flex:none}
+.photo{display:block;max-height:180px;max-width:100%;object-fit:contain;margin:12px auto;border-radius:8px}
+.pattern-choices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.pattern-choice{padding:6px;background:#fff;color:#172b4d;border:2px solid var(--line);text-align:left;line-height:1.5;font-size:14px;min-height:0}
+.pattern-choice[aria-pressed="true"]{border-color:var(--blue);box-shadow:0 0 0 3px #1763d333}
+.pattern-preview{display:block;aspect-ratio:3/2;overflow:hidden;border-radius:6px;margin-bottom:6px;background:#fff}
+.pattern-preview img{display:block;width:400%;max-width:none;height:auto}
+[data-edition="golf"] .pattern-preview img,[data-edition="gk"] .pattern-preview img{width:200%}
+[data-edition="gk"] .pattern-preview img{transform:translateX(-50%)}
+[data-edition="gk-jojo"] .pattern-preview img{transform:translate(-75%,-25%)}
+details{margin:10px 0}summary{cursor:pointer;font-weight:700;line-height:1.6;padding:6px 0}
+.resume{background:#eef4fc;border-radius:12px;padding:6px 14px;margin-top:16px}
+.sheet{display:block;width:100%;height:auto;background:#fff;border-radius:6px;border:1px solid #eef1f5}
+.cards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.card{min-width:0}.card canvas{width:100%;height:auto;background:#fff;border:1px solid #eef1f5}.card p{font-size:12px;margin:3px 0}
+.phrases{display:grid;grid-template-columns:1fr 1fr;gap:6px;padding-left:22px;font-size:13px;line-height:1.6}
+.cut-controls{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:6px;padding:8px;margin:8px 0;background:#fff;border:1px solid var(--line);border-radius:8px;position:sticky;top:6px;z-index:2}
+.cut-field{display:flex;align-items:center;justify-content:center;gap:3px;min-width:0}.cut-field label{font-size:12px;margin:0;white-space:nowrap}
+.cut-field input[type=number]{width:62px;min-width:0;height:38px;padding:4px!important;font-size:14px;border-radius:6px}
+.cut-field input[aria-invalid=true]{border-color:#c02636;outline:1px solid #c02636}
+.stage{border:1px solid var(--line);border-radius:12px;padding:4px 12px;margin:10px 0}.stage .count{font-weight:400;color:#5b6d85;font-size:13px}
+.simple-guide{padding-left:30px;line-height:1.8;margin:6px 0}.simple-guide>li{padding:9px 0;border-bottom:1px solid #e7edf5}
+.simple-guide button{padding:6px 12px;margin:4px 0;min-height:42px;font-size:14px}
+.simple-guide details{font-size:13px}
+.simple-guide input{margin-top:6px}
+@media(max-width:600px){main{padding:10px}.panel{padding:14px}.cards{grid-template-columns:repeat(2,minmax(0,1fr))}.phrases{grid-template-columns:1fr}.cut-controls{grid-template-columns:repeat(3,minmax(0,1fr))}}
+</style></head><body>
+<header><h1>写真からLINEスタンプ</h1>
+<ol class="steps" aria-label="作業の流れ"><li><a href="#s1" id="nav1" aria-current="step">1 つくる</a></li><li><a href="#s2" id="nav2">2 確認・保存</a></li><li><a href="#s3" id="nav3">3 申請</a></li></ol></header>
+<main>
+
+<section class="panel" id="s1"><h2>1　つくる</h2>
+<label for="edition">スタンプの種類（絵柄の見本を押して選びます）</label>
+<select id="edition" hidden><option value="gk">ゴールデンキッズ版</option><option value="golf">ゴルフ版</option><option value="golf-jojo">ゴルフジョジョ風</option><option value="gk-jojo">ゴールデンキッズジョジョ風</option></select>
+<div class="pattern-choices" role="group" aria-label="絵柄からパターンを選ぶ">
+<button type="button" class="pattern-choice" data-edition="gk" aria-pressed="true"><span class="pattern-preview"><img src="assets/patterns/standard-samples.webp" alt="ゴールデンキッズ版の見本" loading="lazy"></span>ゴールデンキッズ版</button>
+<button type="button" class="pattern-choice" data-edition="golf" aria-pressed="false"><span class="pattern-preview"><img src="assets/patterns/standard-samples.webp" alt="ゴルフ版の見本" loading="lazy"></span>ゴルフ版</button>
+<button type="button" class="pattern-choice" data-edition="golf-jojo" aria-pressed="false"><span class="pattern-preview"><img src="assets/patterns/golf-jojo.webp" alt="ゴルフジョジョ風の見本" loading="lazy"></span>ゴルフ<br>ジョジョ風</button>
+<button type="button" class="pattern-choice" data-edition="gk-jojo" aria-pressed="false"><span class="pattern-preview"><img src="assets/patterns/gk-jojo.webp" alt="ゴールデンキッズジョジョ風の見本" loading="lazy"></span>ゴールデンキッズ<br>ジョジョ風</button>
+</div>
+<p id="style" class="help"></p>
+<details><summary>16個の文言・場面を見る</summary><ol id="phrases" class="phrases"></ol></details>
+
+<label for="personName">本人の名前（ZIP名・確認メッセージに使います）</label>
+<input id="personName" type="text" maxlength="60" placeholder="例：沢田早紀" autocomplete="off">
+
+<label for="photo">本人の写真（顔と髪がはっきり写ったもの）</label>
+<input id="photo" type="file" accept="image/*">
+<img id="photoPreview" class="photo" alt="選んだ写真" hidden>
+<p id="photoStatus" class="help" role="status"></p>
+
+<div id="loginBox"><label for="password">アプリのパスワード（この端末で初回のみ）</label>
+<input id="password" type="password" autocomplete="current-password">
+<label class="check"><input id="remember" type="checkbox" checked>この端末で30日間ログインを保持する</label></div>
+<p id="session" class="help" role="status"></p>
+
+<button id="generate" class="big" type="button">16コマを作る（有料）</button>
+<p id="nextHint" class="next" role="status"></p>
+<p id="status" class="status" role="status" aria-live="polite">版・名前・写真を選んでから押してください。</p>
+
+<details class="resume"><summary>途中から再開する（生成料金なし）</summary>
+<p class="help">保存したZIP、または保存した一覧画像から続きを行えます。画像生成は呼び出しません。一覧画像から再開する場合は、先に上で同じ版を選んでください。</p>
+<div class="row"><button id="loadZipButton" type="button" class="secondary">保存済みZIPを読み込む</button><button id="loadSheetButton" type="button" class="secondary">保存済みの一覧画像を読み込む</button></div>
+<input id="loadZip" type="file" accept=".zip,application/zip" hidden><input id="loadSheet" type="file" accept="image/png,image/jpeg,image/webp" hidden>
+<p id="zipStatus" class="help" role="status"></p></details>
+<p class="help"><button id="logout" type="button" class="secondary" style="min-height:36px;padding:6px 12px;font-size:13px">ログアウト</button></p>
+</section>
+
+<section id="s2" class="panel" hidden><h2>2　確認して保存</h2>
+<p id="resultName" class="help"></p>
+<img id="sheet" class="sheet" alt="16コマのスタンプ一覧">
+<p class="help">文字・顔・指や手・コマ間の余白を確認してください。AI生成のため、文字や構図が完全には再現されない場合があります。</p>
+<p id="splitStatus" class="status" role="status" aria-live="polite"></p>
+<details open><summary>16枚を個別に確認</summary><div id="cards" class="cards"></div></details>
+<details id="manualDetails"><summary>分割がずれているとき（生成料金なし）</summary>
+<div class="row"><button id="manualSplit" type="button" class="secondary">位置を補正する</button><button id="autoSplit" type="button" class="secondary">自動分割に戻す</button></div>
+<div id="manualPanel" hidden><p class="help">位置を0.1%単位で補正できます。赤い線は保存されません。</p>
+<div class="cut-controls" role="group" aria-label="分割位置の補正">
+<div class="cut-field"><label for="cutX1">縦1</label><input id="cutX1" data-cut type="number" min="2" max="98" step="0.1" value="25.0" inputmode="decimal"><span>%</span></div>
+<div class="cut-field"><label for="cutX2">縦2</label><input id="cutX2" data-cut type="number" min="2" max="98" step="0.1" value="50.0" inputmode="decimal"><span>%</span></div>
+<div class="cut-field"><label for="cutX3">縦3</label><input id="cutX3" data-cut type="number" min="2" max="98" step="0.1" value="75.0" inputmode="decimal"><span>%</span></div>
+<div class="cut-field"><label for="cutY1">横1</label><input id="cutY1" data-cut type="number" min="2" max="98" step="0.1" value="25.0" inputmode="decimal"><span>%</span></div>
+<div class="cut-field"><label for="cutY2">横2</label><input id="cutY2" data-cut type="number" min="2" max="98" step="0.1" value="50.0" inputmode="decimal"><span>%</span></div>
+<div class="cut-field"><label for="cutY3">横3</label><input id="cutY3" data-cut type="number" min="2" max="98" step="0.1" value="75.0" inputmode="decimal"><span>%</span></div></div>
+<canvas id="splitGuide" class="sheet" aria-label="赤い線で分割位置を確認する一覧画像"></canvas></div></details>
+<label class="check"><input id="reviewed" type="checkbox"><span id="reviewedLabel">16枚とも、文字と絵が切れていないことを確認しました</span></label>
+<button id="saveZip" class="big" type="button" disabled>ZIPを保存する</button>
+<p id="saveHint" class="next" role="status"></p>
+<div class="row"><button id="saveSheet" type="button" class="secondary">一覧画像だけ保存</button><button id="shareSheet" type="button" class="secondary" hidden>携帯の共有から保存</button></div>
+<p class="help">ZIPは16枚（370×320px）＋main＋tab。分割PNGは外周の白い余白を透過します。保存したZIPは「途中から再開」で読み込めます。</p>
+<p id="zipExitWrap" hidden><button id="exitZip" type="button" class="secondary">ZIPの確認を終了する</button></p>
+</section>
+
+<section id="s3" class="panel" hidden><h2>3　本人の承認とLINE申請</h2>
+<h3>本人に確認してもらう</h3>
+<p class="help">本人の同意を得てから一覧画像の共有リンクを作成します。一覧画像だけをCloudflareに保存し、リンクを知る人が30日間閲覧できます。元の顔写真・ログイン情報は共有しません。</p>
+<label class="check"><input id="shareConsent" type="checkbox">本人から、リンクを知る人が30日間一覧画像を閲覧できることに同意を得ました</label>
+<button id="createShare" type="button" class="big" disabled>共有リンクを作成する</button>
+<p id="shareHint" class="next" role="status"></p><p id="shareStatus" class="help" role="status"></p>
+<label for="shareURL">一覧画像のリンク（30日間有効）</label><input id="shareURL" type="url" readonly>
+<label for="approvalText">本人への承認依頼文</label><textarea id="approvalText" rows="9" readonly></textarea>
+<button type="button" data-copy="approvalText">承認依頼文をコピー</button>
+
+<h3>LINE Creators Marketに登録する</h3>
+<p><a href="https://creator.line.me/ja/" target="_blank" rel="noopener noreferrer">LINE Creators Marketを開く</a></p>
+<p class="help">【】のボタンを押すとコピーできます。登録画面の同じ欄に貼り付けてください。段階ごとに開閉できます。</p>
+<details class="stage"><summary>① 表示情報を入力する<span class="count">（1〜24番）</span></summary><ol class="simple-guide" start="1"><li>新規登録を押す</li><li>スタンプを選ぶ</li><li>スタンプのタイプ →「スタンプ」（静止画）を選ぶ</li><li>英語のタイトル <button type="button" class="secondary" data-copy="titleEn">【タイトルをコピー】</button><textarea id="titleEn" readonly hidden></textarea></li><li>英語の説明文 <button type="button" class="secondary" data-copy="descriptionEn">【説明をコピー】</button><textarea id="descriptionEn" readonly hidden></textarea></li><li>言語の追加 → Japaneseを選択 →「追加」</li><li>日本語のタイトル <button type="button" class="secondary" data-copy="titleJa">【タイトルをコピー】</button><textarea id="titleJa" readonly hidden></textarea><br>日本語の説明文 <button type="button" class="secondary" data-copy="descriptionJa">【説明をコピー】</button><textarea id="descriptionJa" readonly hidden></textarea></li><li>コピーライト <button type="button" class="secondary" data-copy="copyrightText">【コピーライトをコピー】</button><textarea id="copyrightText" readonly hidden></textarea><details><summary>クリエイター名を変更</summary><input id="creatorName" value="takashimatm" maxlength="46" aria-label="LINEのクリエイター名（英字表記）"></details></li><li>AIの使用 →「AIを使用しています」</li><li>テイスト → <span id="tasteChoice">カッコいい</span></li><li>キャラクター →「その他」</li><li>プライベート設定 →「LINE STORE/ショップ非公開」</li><li>プレミアムへの参加 →「参加しない」</li><li>販売エリア →「選択したエリアで販売する」→ アジア → 日本</li><li>特集企画 →「参加しない」</li><li>スタンプアレンジ機能 →「参加しない」</li><li>LINE Creators Collaboration →「LINE Creators Collaborationのスタンプではありません」</li><li>お試し送信キャンペーン →「参加しない」</li><li>販売開始 →「手動で販売を開始」</li><li>写真の使用 →「スタンプに写真を使用しています」</li><li>ライセンス証明 → 通常は入力せず進む。許諾資料を求められた場合は提出</li><li>ファイルの添付 → 許諾資料がある場合だけ添付（スタンプのZIPは26番）</li><li>作品が確認できるURL <button type="button" class="secondary" data-copy="workURL">【URLをコピー】</button><textarea id="workURL" readonly hidden></textarea></li><li>その他・補足 <button type="button" class="secondary" data-copy="supplementText">【補足をコピー】</button><textarea id="supplementText" readonly hidden></textarea><label class="check"><input id="rightsConfirmed" type="checkbox">本人・写真の権利者の使用許諾を確認済み</label></li></ol></details>
+<details class="stage"><summary>② 画像をアップロードする<span class="count">（25〜27番）</span></summary><ol class="simple-guide" start="25"><li>「保存」→ アイテムの「スタンプ画像」→「編集」→ スタンプ個数を「16個」へ変更</li><li>「ZIPファイル アップロード」→ ファイルに保存した <span id="zipFilenameGuide"></span> をZIPのまま選択</li><li>main・tab・01〜16の合計18枠を確認 →「戻る」</li></ol></details>
+<details class="stage"><summary>③ 価格を決めて申請する<span class="count">（28〜32番）</span></summary><ol class="simple-guide" start="28"><li>タグ設定 → 今回は設定せず進む</li><li>販売価格情報 →「編集」→ 希望の価格を選択 →「保存」</li><li>「プレビュー」→ 画像・タイトル・説明を確認</li><li>本人から承認をもらったことを確認</li><li>「リクエスト」→ 同意事項を読む → 問題なければ同意して申請</li></ol></details>
+<details class="stage"><summary>④ 審査後：リリースして本人へ渡す<span class="count">（33〜37番）</span></summary><ol class="simple-guide" start="33"><li>「アイテム管理」で審査結果を確認（修正依頼があれば直して再申請）</li><li>承認されたら、ショップ非公開のまま「リリース」</li><li>「表示情報」→「購入用URL」を開く</li><li>「プレゼントする」→ 本人を選ぶ → 内容・料金を確認して購入</li><li>本人が受け取り、スタンプをダウンロード</li></ol></details>
+<p class="help">「リクエスト」が押せず送金先未登録と出る場合：「アカウント設定」→「送金先情報」を登録。</p>
+<p class="help">登録中にページが消えたとき：まずブラウザーのタブ一覧を確認します。保存済みなら、LINE Creators Marketの「アイテム管理」→ 作成中のスタンプ →「表示情報」または「スタンプ画像」から再開できます。「保存」前の入力内容は戻らない場合があるため、表示情報の入力後は「保存」を押してください。</p>
+<p id="copyStatus" class="help" role="status"></p>
+</section>
+<p class="help" style="text-align:center">うまく動かないときは <a href="ai-test.html?v=20261110zip">旧画面</a> も使えます（機能は同じです）。</p></main>
+<script type="module" src="assets/wizard.mjs?v=20261114a"></script>
+</body></html>
